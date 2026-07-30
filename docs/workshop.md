@@ -139,7 +139,7 @@ If you face any challenge or bug running this workshop, please let us know. Your
 
 ---
 
-# Level 1: Analyse the existing and build a plan
+# Level 1: Analyze the existing and build a plan
 
 In this level, you will assess the
 [Order Service application](https://github.com/ABBARNABIL/app-code-modernization)
@@ -208,7 +208,7 @@ You can install the plugin using either the GitHub Copilot app or the CLI.
 On the **Java Modernization Studio** details page, click **Install** and confirm
 the installation if prompted.
 
-![alt text](image.png)
+![alt text](assets/image.png)
 
 **Option 2: Install with the CLI**
 
@@ -302,14 +302,14 @@ Review the result for JDK, Maven, Git, Docker, and Azure CLI. Resolve
 only missing tooling that prevents the assessment from running. Document
 optional tooling that will be needed in later levels.
 
-![alt text](image-1.png)
+![alt text](assets/image-1.png)
 
 ## Step 4: Run the assessment
 
 From the canvas, start **Assessment** and ask the agent to generate the
 assessment and planning artifacts:
 
-![alt text](image-3.png)
+![alt text](assets/image-3.png)
 
 ```text
 Assess this Java application for modernization. Ground every finding in repository

@@ -1,7 +1,18 @@
-# Compiled output
+# Build output
+target/
 node_modules/
 dist/
 .tmp/
+*.class
+
+# IDE and editor state
+.idea/
+.vscode/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
 
 # Logs
 logs
@@ -12,12 +23,17 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# Deployment
+# Local configuration and deployment state
+.env
+.env.*
 *.env
-.azure
+!.env.example
+.azure/
 
 # DB Storage
 .qdrant/
 
 # OS
 .DS_Store
+Thumbs.db
+Desktop.ini

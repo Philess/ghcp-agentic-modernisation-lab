@@ -127,7 +127,13 @@ Finally, you need login to your GitHub account in Visual Studio Code to activate
 
 ## How to run the code?
 
-Everything is detailed on the **README.MD** file in the root folder of the code repository.
+Everything is detailed in the bundled
+[Order Service README](../app/Java%20-%20Spring%20Boot/Order%20Service/README.md).
+From the workshop repository root, first change to the application directory:
+
+```bash
+cd "app/Java - Spring Boot/Order Service"
+```
 
 Take a look at it, and be sure to run at least the front-end app before going further, it will be mandatory to complete the tutorial.
 
@@ -142,7 +148,7 @@ If you face any challenge or bug running this workshop, please let us know. Your
 # Level 1: Analyze the existing and build a plan
 
 In this level, you will assess the
-[Order Service application](https://github.com/ABBARNABIL/app-code-modernization)
+[Order Service application](../app/Java%20-%20Spring%20Boot/Order%20Service/README.md)
 before changing any code. The goal is to establish a trustworthy baseline,
 identify modernization risks and opportunities, define a target state, and
 produce an actionable plan.
@@ -151,7 +157,9 @@ produce an actionable plan.
 
 You need:
 
-- the application repository opened at the Java project root;
+- the workshop repository cloned and opened;
+- a terminal positioned at the bundled Java project root,
+  `app/Java - Spring Boot/Order Service`;
 - the GitHub Copilot app or
   [GitHub Copilot CLI](https://github.com/github/copilot-cli), installed and
   signed in to your GitHub account;
@@ -202,7 +210,12 @@ The plugin is installed under the **awesome-copilot** marketplace. Expand the
 marketplace to view all available plugins and activate or deactivate them as
 needed.
 
+
+![alt text](<assets/list plugins.png>)
+
 You can also view the installed plugin's skills by opening the **Skills** tab in the app, and filter by plugin.
+
+![alt text](<assets/Skills list.png>)
 
 **Option 2: Install with the CLI**
 
@@ -222,8 +235,8 @@ copilot plugin list
 
 The plugin exposes one user-invocable agent, `modernize`. The coordinator and
 executor agents are internal and are selected automatically by the
-orchestrator. You will start the agent from the application repository in Step
-4 with:
+orchestrator. You will start the agent from the Order Service project directory
+in Step 4 with:
 
 ```bash
 copilot --agent=github-copilot-modernization:modernize
@@ -232,8 +245,12 @@ copilot --agent=github-copilot-modernization:modernize
 ## Step 2: Establish the current baseline
 
 Before asking Github Copilot to assess the project, confirm that the existing
-application can be built and tested in its current state. From the repository
-root, run:
+application can be built and tested in its current state. From the Order
+Service project directory, run:
+
+```bash
+cd "app/Java - Spring Boot/Order Service"
+```
 
 ```bash
 mvn clean test
@@ -271,21 +288,12 @@ part of the baseline.
 Inspect the repository and capture:
 
 - modules and their responsibilities;
-- current Java, build tool, Spring, and Spring Boot versions;
-- external services such as databases, message brokers, object storage, and
-  identity providers;
-- configuration and secret-management patterns;
-- test types, coverage, build status, and deployment assets; and
-- known security, supportability, performance, and observability concerns.
-
-Create a simple current-state architecture diagram showing application modules,
-data stores, external services, protocols, and trust boundaries. This diagram
-will be compared with the proposed target architecture later.
+- current Java version, build tool, and Spring Boot versions;
 
 ## Step 3: Check modernization readiness
 
 The plugin discovers Java projects from a `pom.xml` or Gradle build file. From
-the application repository root, confirm that the build file is present and
+the Order Service project directory, confirm that the build file is present and
 check the required tools:
 
 ```bash
@@ -296,36 +304,40 @@ npm --version
 git --version
 ```
 
-If container or Azure migration is in scope, also run:
-
-```bash
-docker --version
-az version
-```
-
 Resolve only missing tooling that prevents assessment. Record optional tooling
 that will be needed in later levels.
 
 ## Step 4: Run the assessment
 
-Open the application repository in the GitHub Copilot app and start the
-installed `modernize` agent, or start the modernization orchestrator from the
-repository root with GitHub Copilot CLI:
+In Github Copilot app, start a new Session in your forked lab repository
+![alt text](assets/add-repo.png)
+![alt text](assets/new-session.png)
 
-```bash
-copilot --agent=github-copilot-modernization:modernize
-```
+In the Session, select the `modernize-java-assessment` agent.
+![alt text](assets/agent-select.png)
+![alt text](assets/java-assessment-agent.png)
 
-Ask it to stop after assessment so that Level 1 remains review-only:
-
+Send the following prompt to the agent:
 ```text
-Assess this Java application for migration to Java 25, upgrading Spring Boot, and remediating security vulnerabilities.
+Assess this Java application Order Service for migration to Java 25, upgrading Spring Boot, and remediating security vulnerabilities.
 ```
+GitHub Copilot creates a Git worktree for the session. 
+A worktree is an additional checkout linked to the same Git repository: it shares the
+repository's history and objects while maintaining its own working directory,
+index, and checked-out branch. This gives Copilot an isolated workspace in
+which to analyze the application without changing the files in your main
+working directory, and it allows multiple agent sessions to work in parallel.
+
+The assessment agent delegates the detailed analysis to a specialized subagent,
+which starts as a background task. The **Background** indicator shows that the
+subagent is still running and can be opened to monitor its progress. Wait for
+the background task to finish and return its evidence-based findings before
+reviewing the generated assessment report.
+
+![alt text](assets/assessment-sub-agent.png)
 
 Review the generated assessment at
-`.github/modernize/assessment/report.json`. The generic prompt `modernize my
-application` runs assessment, planning, and execution automatically, so do not
-use it during this level.
+`.github/modernize/assessment/report.json`.
 
 ## Step 5: Validate and refine the findings
 
@@ -339,8 +351,6 @@ Agree on the modernization outcomes before selecting implementation tasks.
 Document:
 
 - target Java and framework versions, with support-lifecycle justification;
-- target hosting model and deployment platform;
-- target services for data, messaging, storage, identity, and secrets;
 - measurable success criteria
 
 ## Step 7: Build the modernization plan
@@ -350,8 +360,7 @@ assessment and target-state decisions into a plan without executing it:
 
 ```text
 Using .github/modernize/assessment/report.json and the target-state decisions we
-agreed, create a prioritized executable modernization plan named
-order-service-modernization. Include validation criteria for every task. Stop
+agreed, create a prioritized executable modernization plan. Include validation criteria for every task. Stop
 after planning; do not execute tasks, modify application code, or commit changes.
 ```
 

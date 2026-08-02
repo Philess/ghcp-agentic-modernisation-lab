@@ -147,35 +147,20 @@ before changing any code. The goal is to establish a trustworthy baseline,
 identify modernization risks and opportunities, define a target state, and
 produce an actionable plan.
 
-## Learning objectives
-
-By the end of this level, you will be able to:
-
-- describe the application's current architecture, dependencies, integrations,
-  and operational constraints;
-- discover reusable GitHub Copilot customizations in the Awesome Copilot
-  catalog and install a plugin;
-- use GitHub Copilot and Java Modernization Studio to assess modernization
-  readiness;
-- validate AI-generated findings against evidence in the repository;
-- prioritize findings by impact, risk, dependency, and effort; and
-- create a modernization plan with measurable validation criteria.
-
 ## Before you begin
 
 You need:
 
 - the application repository opened at the Java project root;
-- the GitHub Copilot app, signed in to your GitHub account;
-- [GitHub Copilot App Modernization for Java](https://learn.microsoft.com/azure/developer/java/migration/migrate-github-copilot-app-modernization-for-java),
-  which provides the underlying modernization workflow;
+- the GitHub Copilot app or
+  [GitHub Copilot CLI](https://github.com/github/copilot-cli), installed and
+  signed in to your GitHub account;
 - JDK 17 or later, Maven 3.6 or later, Node.js 18 or later, and Git; and
 - Docker and the Azure CLI if you want the assessment to include container and
   Azure readiness.
 
 Do not start upgrading dependencies or editing application code yet. Level 1
-is complete when the findings and plan have been reviewed, not when the
-migration has been implemented.
+is complete when the findings and plan have been reviewed.
 
 ## Step 1: Discover Awesome Copilot and install the plugin
 
@@ -193,48 +178,56 @@ Identify the purpose of each customization type before continuing:
 | Skills | Reusable domain knowledge, procedures, and supporting resources that Copilot can load when relevant. |
 | Plugins | Installable bundles of agents, skills, commands, hooks, or extensions for a complete workflow. |
 
-Open **Plugins** in the catalog and search for **Java Modernization Studio**.
-Before installing it, open its details and answer the following questions:
+Open **Plugins** in the catalog and search for
+[github-copilot-modernization](https://awesome-copilot.github.com/plugin/github-copilot-modernization/).
+This Microsoft-maintained plugin provides autonomous modernization for Java and
+.NET applications through a hierarchy of orchestrator, coordinator, and
+executor agents. Before installing it, open its [details](https://github.com/microsoft/github-copilot-modernization/tree/main/plugins/github-copilot-modernization)  and answer the following
+questions:
 
-1. What problem does the plugin solve?
-2. Which underlying modernization tooling does it drive?
-3. Which repository artifacts does it read and generate?
-4. Which commands or tools can it run?
+1. Which modernization scenarios and application languages does it support?
+2. Which agent can a user invoke directly?
+3. Where does it write assessment and planning artifacts?
+4. How can an enterprise rulebook constrain its recommendations?
 
 You can install the plugin using either the GitHub Copilot app or the CLI.
 
 **Option 1: Install from the GitHub Copilot app**
 
-On the **Java Modernization Studio** details page, click **Install** and confirm
-the installation if prompted.
-
+On the plugin details page, select **Open in GitHub Copilot app** and confirm theinstallation when prompted.
 ![alt text](assets/image.png)
+![alt text](assets/image_1.png)
+
+The plugin is installed under the **awesome-copilot** marketplace. Expand the
+marketplace to view all available plugins and activate or deactivate them as
+needed.
+
+You can also view the installed plugin's skills by opening the **Skills** tab in the app, and filter by plugin.
 
 **Option 2: Install with the CLI**
 
-In the terminal provided by the GitHub Copilot app, run:
+Follow the plugin repository's installation instructions:
 
 ```bash
-copilot plugin install java-modernization-studio@awesome-copilot
+copilot plugin marketplace add microsoft/github-copilot-modernization
+copilot plugin install github-copilot-modernization@github-copilot-modernization
 ```
 
-For most current installations, the marketplace is registered automatically.
-If Github Copilot reports that `awesome-copilot` is unknown, register it once and retry:
+Verify that the marketplace and plugin are available:
 
 ```bash
-copilot plugin marketplace add github/awesome-copilot
-copilot plugin install java-modernization-studio@awesome-copilot
+copilot plugin marketplace list
+copilot plugin list
 ```
 
-Reload or restart the GitHub Copilot app if requested. Verify the installation
-by asking Github Copilot to open the plugin without starting an assessment yet:
+The plugin exposes one user-invocable agent, `modernize`. The coordinator and
+executor agents are internal and are selected automatically by the
+orchestrator. You will start the agent from the application repository in Step
+4 with:
 
-```text
-Open the Java Modernization Studio canvas for this repository.
+```bash
+copilot --agent=github-copilot-modernization:modernize
 ```
-
-You should see the **Overview**, **Readiness**, **Assessment**, **Plan &
-Progress**, **Validation**, and **Tasks** views.
 
 ## Step 2: Establish the current baseline
 
@@ -291,33 +284,54 @@ will be compared with the proposed target architecture later.
 
 ## Step 3: Check modernization readiness
 
-Open the Java Modernization Studio canvas for the project and run its
-Environment Doctor:
+The plugin discovers Java projects from a `pom.xml` or Gradle build file. From
+the application repository root, confirm that the build file is present and
+check the required tools:
 
-```text
-Open the Java Modernization Studio canvas for this repository and run a readiness check.
+```bash
+java -version
+mvn -version
+node --version
+npm --version
+git --version
 ```
 
-Review the result for JDK, Maven, Git, Docker, and Azure CLI. Resolve
-only missing tooling that prevents the assessment from running. Document
-optional tooling that will be needed in later levels.
+If container or Azure migration is in scope, also run:
 
-![alt text](assets/image-1.png)
+```bash
+docker --version
+az version
+```
+
+Resolve only missing tooling that prevents assessment. Record optional tooling
+that will be needed in later levels.
 
 ## Step 4: Run the assessment
 
-From the canvas, start **Assessment** and ask the agent to generate the
-assessment and planning artifacts:
+Open the application repository in the GitHub Copilot app and start the
+installed `modernize` agent, or start the modernization orchestrator from the
+repository root with GitHub Copilot CLI:
 
-![alt text](assets/image-3.png)
+```bash
+copilot --agent=github-copilot-modernization:modernize
+```
+
+Ask it to stop after assessment so that Level 1 remains review-only:
 
 ```text
-Assess this Java application for modernization. Ground every finding in repository
-evidence. Generate .appmod/assessment.json and prioritized plan.md and progress.md
-files, but do not modify application code or execute the plan.
+Assess this Java application for migration to Java 25, upgrading Spring Boot, and remediating security vulnerabilities.
 ```
+
+Review the generated assessment at
+`.github/modernize/assessment/report.json`. The generic prompt `modernize my
+application` runs assessment, planning, and execution automatically, so do not
+use it during this level.
+
 ## Step 5: Validate and refine the findings
 
+Compare each material finding in the assessment with the baseline evidence.
+Correct unsupported assumptions, add missed dependencies and constraints, and
+record which recommendations you accept, reject, or defer before planning.
 
 ## Step 6: Define the target state
 
@@ -331,7 +345,21 @@ Document:
 
 ## Step 7: Build the modernization plan
 
-Use the validated findings and target state to refine `plan.md`.
+In the same orchestrator session, ask the plugin to turn the validated
+assessment and target-state decisions into a plan without executing it:
+
+```text
+Using .github/modernize/assessment/report.json and the target-state decisions we
+agreed, create a prioritized executable modernization plan named
+order-service-modernization. Include validation criteria for every task. Stop
+after planning; do not execute tasks, modify application code, or commit changes.
+```
+
+Review `.github/modernize/order-service-modernization/plan.md` and
+`.github/modernize/order-service-modernization/tasks.json`. Confirm that task
+dependencies, risk, scope, and validation criteria match the agreed target
+state. In Level 2, you will encode organizational guardrails under
+`.github/modernize/rulebook/` and regenerate the plan.
 ---
 
 # Level 2: Setup the guardrails

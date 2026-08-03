@@ -222,25 +222,24 @@ You can also view the installed plugin's skills by opening the **Skills** tab in
 Follow the plugin repository's installation instructions:
 
 ```bash
-copilot plugin marketplace add microsoft/github-copilot-modernization
-copilot plugin install github-copilot-modernization@github-copilot-modernization
+/plugin marketplace add github/awesome-copilot
+/plugin install github-copilot-modernization@awesome-copilot
 ```
 
 Verify that the marketplace and plugin are available:
 
 ```bash
-copilot plugin marketplace list
-copilot plugin list
+/plugin marketplace list
+/plugin list
 ```
 
-The plugin exposes one user-invocable agent, `modernize`. The coordinator and
-executor agents are internal and are selected automatically by the
-orchestrator. You will start the agent from the Order Service project directory
-in Step 4 with:
+You can view installed plugin skills, MCP servers, and agent commands with:
 
 ```bash
-copilot --agent=github-copilot-modernization:modernize
+/env
 ```
+
+![alt text](assets/cli-env-list.png)
 
 ## Step 2: Establish the current baseline
 

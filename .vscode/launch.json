@@ -12,13 +12,12 @@
       "console": "integratedTerminal"
     },
     {
-      "type": "pwa-chrome",
+      "type": "node-terminal",
       "name": "Order Service: Frontend",
       "request": "launch",
-      "url": "http://127.0.0.1:5173",
-      "webRoot": "${workspaceFolder}/app/Java - Spring Boot/Order Service/frontend",
-      "sourceMaps": true,
-      "preLaunchTask": "Order Service: Start Frontend"
+      "command": "npm run dev -- --host 127.0.0.1 --port 5173 --strictPort",
+      "cwd": "${workspaceFolder}/app/Java - Spring Boot/Order Service/frontend",
+      "preLaunchTask": "Order Service: Install Frontend Dependencies"
     },
     {
       "type": "java",
@@ -29,12 +28,7 @@
       "cwd": "${workspaceFolder}/app/Java - Spring Boot/Order Service",
       "shortenCommandLine": "argfile",
       "console": "internalConsole",
-      "preLaunchTask": "Order Service: Start Frontend",
-      "serverReadyAction": {
-        "action": "debugWithChrome",
-        "pattern": "Started OrderServiceApplication.*",
-        "uriFormat": "http://127.0.0.1:5173"
-      }
+      "preLaunchTask": "Order Service: Start Frontend"
     }
   ]
 }

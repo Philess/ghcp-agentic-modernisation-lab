@@ -202,7 +202,7 @@ You can install the plugin using either the GitHub Copilot app or the CLI.
 
 **Option 1: Install from the GitHub Copilot app**
 
-On the plugin details page, select **Open in GitHub Copilot app** and confirm theinstallation when prompted.
+On the plugin details page, select **Open in GitHub Copilot app** and confirm the installation when prompted.
 ![alt text](assets/image.png)
 ![alt text](assets/image_1.png)
 

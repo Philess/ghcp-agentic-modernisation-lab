@@ -7,7 +7,10 @@ dist/
 
 # IDE and editor state
 .idea/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
 *.iml
 *.iws
 .classpath

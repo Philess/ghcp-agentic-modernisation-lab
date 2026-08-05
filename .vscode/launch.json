@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Order Service: Backend",
+      "request": "launch",
+      "mainClass": "com.contoso.demo.orderservice.OrderServiceApplication",
+      "projectName": "order-service",
+      "cwd": "${workspaceFolder}/app/Java - Spring Boot/Order Service",
+      "shortenCommandLine": "argfile",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "pwa-chrome",
+      "name": "Order Service: Frontend",
+      "request": "launch",
+      "url": "http://127.0.0.1:5173",
+      "webRoot": "${workspaceFolder}/app/Java - Spring Boot/Order Service/frontend",
+      "sourceMaps": true,
+      "preLaunchTask": "Order Service: Start Frontend"
+    },
+    {
+      "type": "java",
+      "name": "Order Service: Full Stack",
+      "request": "launch",
+      "mainClass": "com.contoso.demo.orderservice.OrderServiceApplication",
+      "projectName": "order-service",
+      "cwd": "${workspaceFolder}/app/Java - Spring Boot/Order Service",
+      "shortenCommandLine": "argfile",
+      "console": "internalConsole",
+      "preLaunchTask": "Order Service: Start Frontend",
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "pattern": "Started OrderServiceApplication.*",
+        "uriFormat": "http://127.0.0.1:5173"
+      }
+    }
+  ]
+}

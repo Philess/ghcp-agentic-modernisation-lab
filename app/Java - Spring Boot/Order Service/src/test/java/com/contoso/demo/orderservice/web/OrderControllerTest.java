@@ -1,6 +1,7 @@
 package com.contoso.demo.orderservice.web;
 
 import com.contoso.demo.orderservice.model.Order;
+import com.contoso.demo.orderservice.model.OrderStatus;
 import com.contoso.demo.orderservice.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -77,6 +79,44 @@ class OrderControllerTest {
         mockMvc.perform(post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createRejectsBlankCustomerAndNonPositiveAmount() throws Exception {
+        mockMvc.perform(post("/api/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"customer\":\"   \",\"amount\":0}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateStatusReturnsUpdatedOrder() throws Exception {
+        Order order = new Order("dave", new BigDecimal("15.00"));
+        order.setStatus(OrderStatus.PROCESSING);
+        when(orderService.updateStatus(4L, OrderStatus.PROCESSING))
+                .thenReturn(Optional.of(order));
+
+        mockMvc.perform(patch("/api/orders/4/status")
+                        .param("status", "PROCESSING"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("PROCESSING"));
+    }
+
+    @Test
+    void updateStatusReturns404WhenOrderIsMissing() throws Exception {
+        when(orderService.updateStatus(99L, OrderStatus.COMPLETED))
+                .thenReturn(Optional.empty());
+
+        mockMvc.perform(patch("/api/orders/99/status")
+                        .param("status", "COMPLETED"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateStatusRejectsUnknownStatus() throws Exception {
+        mockMvc.perform(patch("/api/orders/1/status")
+                        .param("status", "UNKNOWN"))
                 .andExpect(status().isBadRequest());
     }
 }

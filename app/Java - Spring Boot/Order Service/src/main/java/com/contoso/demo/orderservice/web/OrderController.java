@@ -1,10 +1,12 @@
 package com.contoso.demo.orderservice.web;
 
 import com.contoso.demo.orderservice.model.Order;
+import com.contoso.demo.orderservice.model.OrderStatus;
 import com.contoso.demo.orderservice.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,5 +49,13 @@ public class OrderController {
     public ResponseEntity<Order> create(@Valid @RequestBody Order order) {
         Order saved = orderService.create(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Order> updateStatus(@PathVariable Long id,
+                                              @RequestParam OrderStatus status) {
+        return orderService.updateStatus(id, status)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

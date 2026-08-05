@@ -2,10 +2,15 @@ package com.contoso.demo.orderservice.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -18,16 +23,22 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String customer;
 
     @NotNull
+    @DecimalMin("0.01")
     @Column(nullable = false)
     private BigDecimal amount;
 
     @Column(name = "created_at")
     private Date createdAt;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status = OrderStatus.PENDING;
 
     public Order() {
     }
@@ -36,6 +47,13 @@ public class Order {
         this.customer = customer;
         this.amount = amount;
         this.createdAt = new Date();
+    }
+
+    @PrePersist
+    public void initializeCreatedAt() {
+        if (createdAt == null) {
+            createdAt = new Date();
+        }
     }
 
     public Long getId() {
@@ -68,5 +86,13 @@ public class Order {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 }

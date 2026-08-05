@@ -1,6 +1,7 @@
 package com.contoso.demo.orderservice.service;
 
 import com.contoso.demo.orderservice.model.Order;
+import com.contoso.demo.orderservice.model.OrderStatus;
 import com.contoso.demo.orderservice.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +15,10 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,10 +62,35 @@ class OrderServiceUnitTest {
     @Test
     void createPersistsOrder() {
         Order order = new Order("carol", new BigDecimal("10.00"));
+        order.setStatus(OrderStatus.COMPLETED);
         when(orderRepository.save(order)).thenReturn(order);
 
         orderService.create(order);
 
+        assertEquals(OrderStatus.PENDING, order.getStatus());
         verify(orderRepository).save(order);
+    }
+
+    @Test
+    void updateStatusPersistsTheRequestedStatus() {
+        Order order = new Order("dave", new BigDecimal("15.00"));
+        when(orderRepository.findById(4L)).thenReturn(Optional.of(order));
+        when(orderRepository.save(order)).thenReturn(order);
+
+        Optional<Order> result = orderService.updateStatus(4L, OrderStatus.PROCESSING);
+
+        assertTrue(result.isPresent());
+        assertEquals(OrderStatus.PROCESSING, result.get().getStatus());
+        verify(orderRepository).save(order);
+    }
+
+    @Test
+    void updateStatusReturnsEmptyWhenOrderIsMissing() {
+        when(orderRepository.findById(99L)).thenReturn(Optional.empty());
+
+        Optional<Order> result = orderService.updateStatus(99L, OrderStatus.COMPLETED);
+
+        assertFalse(result.isPresent());
+        verify(orderRepository, never()).save(any(Order.class));
     }
 }

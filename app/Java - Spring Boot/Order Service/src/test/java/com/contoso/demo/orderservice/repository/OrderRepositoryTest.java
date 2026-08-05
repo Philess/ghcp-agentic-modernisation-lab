@@ -1,6 +1,7 @@
 package com.contoso.demo.orderservice.repository;
 
 import com.contoso.demo.orderservice.model.Order;
+import com.contoso.demo.orderservice.model.OrderStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -34,5 +35,28 @@ class OrderRepositoryTest {
 
         assertEquals("grace", saved.getCustomer());
         assertNotNull(saved.getCreatedAt());
+        assertEquals(OrderStatus.PENDING, saved.getStatus());
+    }
+
+    @Test
+    void createdAtIsPopulatedForRestStyleOrderOnSave() {
+        Order order = new Order();
+        order.setCustomer("harry");
+        order.setAmount(new BigDecimal("11.25"));
+
+        Order saved = orderRepository.saveAndFlush(order);
+
+        assertNotNull(saved.getCreatedAt());
+    }
+
+    @Test
+    void statusIsPersisted() {
+        Order order = new Order("helen", new BigDecimal("18.25"));
+        order.setStatus(OrderStatus.COMPLETED);
+
+        Order saved = orderRepository.saveAndFlush(order);
+
+        assertEquals(OrderStatus.COMPLETED,
+                orderRepository.findById(saved.getId()).get().getStatus());
     }
 }

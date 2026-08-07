@@ -391,7 +391,7 @@ Starting a new session gives the planner a clean context. Copilot only needs to 
 You do not need to create the session or change its mode manually. From the completed assessment session, copy and send the following prompt:
 
 ```text
-Start a new session for this repository in Plan mode. In that new session, use @.github/modernize/assessment.md and @.github/modernize/tasks.json on as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in those artifacts. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
+Start a new session for this repository in Plan mode. In that new session, use @.github/modernize/assessment.md and @.github/modernize/tasks.json as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in those artifacts. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
 ```
 ![Assessment session creating an isolated planning session](assets/start-new-session.png)
 

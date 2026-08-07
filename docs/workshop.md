@@ -243,7 +243,7 @@ You can view installed plugin skills, MCP servers, and agent commands with:
 
 ## Step 2: Establish the current baseline
 
-Before asking Github Copilot to assess the project, confirm that the existing
+Before asking GitHub Copilot to assess the project, confirm that the existing
 application can be built and tested in its current state. From the Order
 Service project directory, run:
 

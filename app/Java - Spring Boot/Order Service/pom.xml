@@ -43,6 +43,7 @@
         </dependency>
 
         
+        <!-- Intentionally pinned to a vulnerable version for CVE remediation exercises. Do not use in production. -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>

@@ -30,7 +30,7 @@ frontend/                   # React + Vite UI
 
 ## Prerequisites
 
-- JDK 8+ and Maven 3.6+
+- JDK 17+ and Maven 3.6+ (the build currently targets Java 8 for the initial modernization baseline)
 - Node.js 18+ (for the frontend)
 
 ## Running the Backend

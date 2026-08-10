@@ -160,7 +160,7 @@ You need:
 - the workshop repository cloned and opened;
 - a terminal positioned at the bundled Java project root,
   `app/Java - Spring Boot/Order Service`;
-- the GitHub Copilot app or
+- the [GitHub Copilot app](https://github.com/github/app#install) or
   [GitHub Copilot CLI](https://github.com/github/copilot-cli), installed and
   signed in to your GitHub account;
 - JDK 17 or later, Maven 3.6 or later, Node.js 18 or later, and Git; and
@@ -291,7 +291,7 @@ Inspect the repository and capture:
 
 ## Step 3: Check modernization readiness
 
-The plugin discovers Java projects from a `pom.xml` or Gradle build file. From
+The plugin discovers Java projects from a `pom.xml` file. From
 the Order Service project directory, confirm that the build file is present and
 check the required tools:
 
@@ -337,32 +337,23 @@ reviewing the generated assessment report.
 
 ![alt text](assets/assessment-sub-agent-session.png)
 
-After the assessment is complete, the agent generates a report in Markdown and a list of recommended tasks in JSON. The report includes a summary of the findings,
-recommendations.
+After the assessment is complete, the agent generates a report in Markdown that includes a summary of the findings, recommendations.
 
 ![alt text](assets/assessment-report.png)
 
-The assessment report describes the current state of the application, including its dependencies, vulnerabilities, and modernization opportunities. The recommended tasks are prioritized and include validation criteria for each task.
+The assessment report describes the current state of the application, including its dependencies, vulnerabilities, and modernization opportunities.
 
 ![Assessment report showing the current state and modernization targets](assets/assessment-md.png)
+> The opening inventory compares the current Java 8 and Spring Boot 2.7 stack with the Java 25 and Spring Boot 3.5 targets. It also surfaces end-of-life components and vulnerable dependencies that require attention.
 
-> The assessment starts with an evidence-based comparison of the current and target states. It highlights outdated platform versions and critical security issues so that the highest-risk findings are visible immediately.
+![Assessment report showing the current state and modernization targets](assets/assessment-blockers-md.png)
+> The compatibility analysis identifies the concrete changes required for the upgrade.
 
-![Assessment finding with evidence and a recommended Spring Boot upgrade](assets/assessment-recommendations.png)
+![Assessment report showing the current state and modernization targets](assets/assessment-cve-md.png)
+> The security findings trace each CVE to a specific dependency and version, explain its impact, and provide a minimum safe upgrade target.
 
-> Each finding connects repository evidence to its impact and a concrete recommendation. In this example, the report identifies the end-of-life Spring Boot version and proposes a supported upgrade target.
-
-![Recommended phased sequence for the modernization](assets/assessment-recommendations-phases.png)
-
-> The recommendations are organized into phases that address critical vulnerabilities first, then upgrade Spring Boot and Java through controlled, testable steps. Effort estimates and validation activities make the sequence easier to turn into an implementation plan.
-
-![assessment tasks with priorities and remediation details](assets/assessment-tasks.png)
-
-> The assessment also produces structured tasks in JSON. Each task records its phase, priority, category, affected files, effort, and remediation details, making the findings traceable and ready for automated planning.
-
-![Prioritized assessment summary organized by modernization phase](assets/assessment-report-summary.png)
-
->  The concise summary groups the findings by urgency and upgrade phase, links them to supporting evidence, and shows their recommended execution order. Use this view to review priorities and dependencies before accepting the plan.
+![Assessment report showing the current state and modernization sequence](assets/assessment-recommendations-sequence.png)
+> The recommended sequence isolates risk into testable stages: remediate CVEs first, move to Java 17, complete the Spring Boot and Jakarta migration, and then advance to Java 25. Running the full test suite after each stage makes failures easier to identify and resolve.
 
 
 ## Step 5: Validate and refine the findings
@@ -379,19 +370,17 @@ Now that the assessment is complete and validated, you can generate a modernizat
 
 The first session has completed its assessment role and externalized the information needed for planning into two repository artifacts:
 
-- `.github/modernize/assessment/assessment.md` contains the validated findings, supporting evidence, risks, and recommendations;
-- `.github/modernize/assessment/tasks.json` contains the structured and prioritized remediation tasks.
+- `./assessment/assessment.md` contains the validated findings, supporting evidence, risks, and recommendations;
 
-These files provide a durable handoff between the assessment and planning phases, so the planning agent does not need the assessment conversation itself. That conversation may contain source-code scans, command output, subagent messages, intermediate conclusions, and repeated findings. Continuing in the same session makes that history compete with the plan for space in the model's context window and can cause Copilot to process more tokens on every turn.
+This file provides a durable handoff between the assessment and planning phases, so the planning agent does not need the assessment conversation itself. That conversation may contain source-code scans, command output, subagent messages, intermediate conclusions, and repeated findings. Continuing in the same session makes that history compete with the plan for space in the model's context window and can cause Copilot to process more tokens on every turn.
 
 Starting a new session gives the planner a clean context. Copilot only needs to load the final assessment artifacts, the planning prompt, and any relevant project files. This reduces unnecessary token usage, leaves more context capacity for producing a detailed plan, and prevents superseded assessment discussions from distracting the planner from the validated findings.
 
-> **Important:** Before requesting the handoff, make sure `assessment.md` and `tasks.json` are saved and available on the branch or worktree that the new session will use. The files carry the work forward; the previous chat history does not.
+> **Important:** Before requesting the handoff, make sure `assessment.md` is saved and available on the branch or worktree that the new session will use. The files carry the work forward; the previous chat history does not.
 
 You do not need to create the session or change its mode manually. From the completed assessment session, copy and send the following prompt:
-
 ```text
-Start a new session for this repository in Plan mode. In that new session, use @.github/modernize/assessment.md and @.github/modernize/tasks.json as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in those artifacts. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
+Start a new session for this repository in Plan mode. In that new session, use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in those artifacts. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
 ```
 ![Assessment session creating an isolated planning session](assets/start-new-session.png)
 
@@ -399,9 +388,9 @@ Start a new session for this repository in Plan mode. In that new session, use @
 
 ![New planning session running in Plan mode with the planning coordinator](assets/plan-new-session.png)
 
-> The new session appears separately in the repository session list. It runs in **Plan** mode with the planning coordinator agent, loads the modernization-planning skill from the plugin, and reads the assessment artifacts before producing output.
+> The new session appears separately in the repository session list. It runs in **Plan** mode with the planning coordinator agent, loads the modernization-planning skill from the plugin, and reference `assessment.md` in the kickoff prompt.
 
-![Generated plan summary with an option to view the full plan](assets/view-plan.png)
+![Generated modernization plan showing the target state and executable tasks](assets/view-plan.png)
 
 > Copilot first presents a concise plan summary for review. It preserves the validated security-first sequence, orders the migration tasks by dependency, identifies the files it will generate, and waits for approval.
 
@@ -419,7 +408,7 @@ Start a new session for this repository in Plan mode. In that new session, use @
 
 ![Generated modernization tasks JSON showing task metadata and dependencies](assets/plan-tasks.png)
 
-> After approval, Copilot persists the executable task graph in `tasks.json`. Each task records its type, identifier, rationale, exact requirements, dependencies, and measurable success criteria, enabling the implementation agents to execute work in the intended order and verify every result.
+> After approval, Copilot persists the executable task graph in `tasks.json`. Each task records its type, exact requirements, dependencies, and measurable success criteria, enabling the implementation agents to execute work in the intended order and verify every result.
 
 ---
 

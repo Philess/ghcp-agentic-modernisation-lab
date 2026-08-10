@@ -1,0 +1,34 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Order Service: Backend",
+      "request": "launch",
+      "mainClass": "com.contoso.demo.orderservice.OrderServiceApplication",
+      "projectName": "order-service",
+      "cwd": "${workspaceFolder}/app/Java - Spring Boot/Order Service",
+      "shortenCommandLine": "argfile",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Order Service: Frontend",
+      "request": "launch",
+      "command": "npm run dev -- --host 127.0.0.1 --port 5173 --strictPort",
+      "cwd": "${workspaceFolder}/app/Java - Spring Boot/Order Service/frontend",
+      "preLaunchTask": "Order Service: Install Frontend Dependencies"
+    },
+    {
+      "type": "java",
+      "name": "Order Service: Full Stack",
+      "request": "launch",
+      "mainClass": "com.contoso.demo.orderservice.OrderServiceApplication",
+      "projectName": "order-service",
+      "cwd": "${workspaceFolder}/app/Java - Spring Boot/Order Service",
+      "shortenCommandLine": "argfile",
+      "console": "internalConsole",
+      "preLaunchTask": "Order Service: Start Frontend"
+    }
+  ]
+}

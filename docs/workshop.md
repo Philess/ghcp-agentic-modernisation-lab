@@ -531,16 +531,7 @@ When all workers return, inspect the final execution summary. It should state:
 
 ![alt text](assets/execution-summary.png)
 
-Review the branch history and working tree before running your own checks:
-
-
-```bash
-git status --short
-git log --oneline --decorate -n 15
-git diff <base-branch>...HEAD
-```
-
-Replace `<base-branch>` with the branch from which implementation started. Make sure every change maps to an approved task and that no secrets, generated build output, or unrelated edits were committed.
+Review the branch history and working tree before running your own checks
 
 ## Step 5: Verify independently
 

@@ -388,7 +388,7 @@ Start a new session for this repository in Plan mode. In that new session, use @
 
 ![New planning session running in Plan mode with the planning coordinator](assets/plan-new-session.png)
 
-> The new session appears separately in the repository session list. It runs in **Plan** mode with the planning coordinator agent, loads the modernization-planning skill from the plugin, and reference `assessment.md` in the kickoff prompt.
+> The new session appears separately in the repository session list. It runs in **Plan** mode with the planning coordinator agent, loads the modernization-planning skill from the plugin, and references `assessment.md` in the kickoff prompt.
 
 ![Generated modernization plan showing the target state and executable tasks](assets/view-plan.png)
 

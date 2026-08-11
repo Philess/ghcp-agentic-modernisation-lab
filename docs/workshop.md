@@ -410,6 +410,10 @@ Start a new session for this repository in Plan mode. In that new session, use @
 
 > After approval, Copilot persists the executable task graph in `tasks.json`. Each task records its type, exact requirements, dependencies, and measurable success criteria, enabling the implementation agents to execute work in the intended order and verify every result.
 
+![alt text](assets/approved-plan.png)
+
+> After approval, Copilot validates and saves the two planning artifacts, `plan.md` and `tasks.json`, in the repository's `.github/modernize/` directory. No modernization tasks are executed at this stage.
+
 ---
 
 # Level 2: Setup the guardrails
@@ -421,7 +425,6 @@ Marketplace, plugins, agents, skills & instructions, MCP
 Update plan
 
 ---
-
 # Level 3: Implementation
 
 [Philippe => CLI & Nabil => App]
@@ -429,6 +432,157 @@ Update plan
 Multi-agent worflow 
 => choose the right model
 => Autopilot
+
+In this level, you will execute the approved modernization plan with GitHub Copilot. You can use either the GitHub Copilot app or GitHub Copilot CLI. Both options invoke the same `modernize` orchestrator and use the plan artifacts created in Level 1 and refined with the guardrails from Level 2.
+
+The implementation is intentionally performed in a separate session. The execution agents need the final `plan.md`, `tasks.json`, rulebook, and project files, but they do not need the assessment and planning conversations.
+
+## Before you begin
+
+Confirm that:
+
+- the final `plan.md` and `tasks.json` are present under
+  `.github/modernize/<plan-name>/`;
+- the plan reflects the guardrails added in Level 2;
+- the approved artifacts are available in the branch or worktree used by the
+  new execution session;
+- the baseline tests from Level 1 pass, or any pre-existing failures have been
+  recorded; and
+- the target JDK and Maven versions required by the approved plan are
+  available.
+
+Do not run two implementation sessions against the same worktree at the same
+time. The executor creates a dedicated `modernize/java-<timestamp>` branch and
+all worker agents contribute to that branch.
+
+## Understand the multi-agent workflow
+
+Only the `modernize` agent is user-invocable. Do not select an execution
+coordinator or worker directly. The orchestrator loads the existing plan and
+delegates its tasks through the following hierarchy:
+
+```mermaid
+flowchart TD
+    U[Participant] --> O[modernize orchestrator]
+    O --> P[planning coordinator<br/>selects the approved plan]
+    P --> E[execution coordinator<br/>orders tasks and prepares a branch]
+    E --> J[modernize-java-upgrade<br/>Java, Spring Boot, and Jakarta]
+    E --> S[modernize-java-security<br/>CVE remediation]
+    E --> A[modernize-azure-java<br/>Azure service migrations]
+    E --> D[modernize-deployment<br/>containers, IaC, and CI/CD]
+    J --> V[Build and test validation]
+    S --> V
+    A --> V
+    D --> V
+```
+
+The execution coordinator groups related Java and Spring Boot upgrades into a single delegation, sends security and migration work to their specialized agents, runs independent work in parallel when possible, and waits for task dependencies before continuing. Each worker is responsible for its code changes, commits, and validation.
+
+## Step 1: Choose the execution model
+
+Model choice affects reasoning quality, tool use, speed, and AI credits consumption. The plugin's agents declare their own [preferred models](https://github.com/microsoft/github-copilot-modernization/blob/8b644bebc7e1f929c01d80788293a37872f480f8/plugins/github-copilot-modernization/agents/execution-coordinator.agent.md?plain=1#L4).
+
+If the configured model is unavailable in your organization, choose an available model optimized for complex coding and agentic tool use.
+
+Record the selected model so you can compare execution time, tool calls, and results with another model after the workshop.
+
+## Step 2: Start the implementation
+
+Remain in the completed planning session after approving the plan. From that same session, send the following handoff prompt:
+
+```text
+Start a new session with the modernize agent in Autopilot mode using Claude sonnet 4.6. In that new session, execute the approved modernization plan for the Order Service from @plan.md. Use @tasks.json as the source of truth, enforce the rulebook, and respect every dependency and validation gate.
+```
+![alt text](assets/start-implementation.png)
+
+Copilot creates a separate implementation session and worktree while leaving the approved planning session unchanged. Open the new session from the repository session list, then verify that it uses the `modernize` agent, runs in **Autopilot** mode, and references the approved `plan.md` and `tasks.json` before implementation begins.
+
+![alt text](assets/execute-session.png)
+
+The session delegates implementation tasks to background subagents. Open the **Background** view to inspect which specialized agent owns each task and to follow its progress. Let the orchestration finish before editing files in the execution worktree.
+
+![alt text](assets/execution-background-session.png)
+## Step 3: Observe the orchestration
+
+While execution is running, identify and record:
+
+1. the branch created for the implementation;
+2. the task groups sent to each specialized worker;
+3. the build or test command used at each release gate; and
+4. any retry, blocked task, or deviation from the approved plan.
+
+![alt text](assets/execution-branch.png)
+
+![alt text](assets/execution-security-agent.png)
+
+![alt text](assets/execution-jdk17.png)
+
+Autopilot removes repetitive approval prompts; it does not remove quality gates. A task is successful only when its required build, tests, and acceptance criteria pass. If a worker reports a failure, preserve its diagnostics and do not approve the remaining dependent tasks as complete. Ask the orchestrator to retry only after you have reviewed the cause.
+
+## Step 4: Review the execution result
+
+When all workers return, inspect the final execution summary. It should state:
+
+- completed and failed tasks;
+- files and dependencies changed;
+- commits created on the modernization branch;
+- build and test results; and
+- any manual follow-up work.
+
+![alt text](assets/execution-summary.png)
+
+Review the branch history and working tree before running your own checks:
+
+
+```bash
+git status --short
+git log --oneline --decorate -n 15
+git diff <base-branch>...HEAD
+```
+
+Replace `<base-branch>` with the branch from which implementation started. Make sure every change maps to an approved task and that no secrets, generated build output, or unrelated edits were committed.
+
+## Step 5: Verify independently
+
+Agent-reported validation is useful evidence, but it does not replace your own
+acceptance check. From the Order Service directory, run:
+
+```bash
+mvn clean test
+mvn clean package
+```
+
+Confirm the effective runtime and build JDK match the approved target:
+
+```bash
+java -version
+mvn -version
+```
+
+Start the modernized backend:
+
+```bash
+mvn spring-boot:run
+```
+
+In another terminal, verify that the existing API contract still works:
+
+```bash
+curl http://localhost:8080/api/orders
+```
+
+Finally, start the frontend and confirm that its order list and create-order
+workflow still work against the modernized API:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Compare these results with the Level 1 baseline. Record any behavior change,
+warning, failed test, or plan deviation before moving to the quality and
+security review in Level 4.
 
 ---
 

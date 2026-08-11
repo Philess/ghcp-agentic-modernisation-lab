@@ -337,7 +337,7 @@ reviewing the generated assessment report.
 
 ![alt text](assets/assessment-sub-agent-session.png)
 
-After the assessment is complete, the agent generates a report in Markdown that includes a summary of the findings, recommendations.
+After the assessment is complete, the agent generates a report in Markdown that includes a summary of the findings and recommendations.
 
 ![alt text](assets/assessment-report.png)
 

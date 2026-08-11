@@ -368,7 +368,7 @@ Now that the assessment is complete and validated, you can generate a modernizat
 
 ### Why start a new session?
 
-The first session has completed its assessment role and externalized the information needed for planning into two repository artifacts:
+The first session has completed its assessment role and externalized the information needed for planning into a repository artifact:
 
 - `./assessment/assessment.md` contains the validated findings, supporting evidence, risks, and recommendations;
 
@@ -380,11 +380,11 @@ Starting a new session gives the planner a clean context. Copilot only needs to 
 
 You do not need to create the session or change its mode manually. From the completed assessment session, copy and send the following prompt:
 ```text
-Start a new session for this repository in Plan mode. In that new session, use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in those artifacts. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
+Start a new session for this repository in Plan mode. In that new session, use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
 ```
 ![Assessment session creating an isolated planning session](assets/start-new-session.png)
 
-> Copilot confirms that it created a separate planning session grounded in the two assessment artifacts. The assessment session remains unchanged and only coordinates the handoff.
+> Copilot confirms that it created a separate planning session grounded in the assessment artifact. The assessment session remains unchanged and only coordinates the handoff.
 
 ![New planning session running in Plan mode with the planning coordinator](assets/plan-new-session.png)
 

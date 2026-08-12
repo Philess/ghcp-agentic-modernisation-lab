@@ -123,7 +123,7 @@ code .
 
 Finally, you need login to your GitHub account in Visual Studio Code to activate the GitHub Copilot extensions. The extensions will ask you to login, but if you don't see the prompt, you can login by clicking on the user icon in the bottom left sidebar where you will see the logins for GitHub and GitHub Copilot Chat.
 
-![alt text](assets/gh-login.png)
+![VS Code account menu for signing in to GitHub and GitHub Copilot](assets/gh-login.png)
 
 ## How to run the code?
 
@@ -160,7 +160,7 @@ You need:
 - the workshop repository cloned and opened;
 - a terminal positioned at the bundled Java project root,
   `app/Java - Spring Boot/Order Service`;
-- the GitHub Copilot app or
+- the [GitHub Copilot app](https://github.com/github/app#install) or
   [GitHub Copilot CLI](https://github.com/github/copilot-cli), installed and
   signed in to your GitHub account;
 - JDK 17 or later, Maven 3.6 or later, Node.js 18 or later, and Git; and
@@ -203,19 +203,19 @@ You can install the plugin using either the GitHub Copilot app or the CLI.
 **Option 1: Install from the GitHub Copilot app**
 
 On the plugin details page, select **Open in GitHub Copilot app** and confirm the installation when prompted.
-![alt text](assets/image.png)
-![alt text](assets/image_1.png)
+![Awesome GitHub Copilot catalog page for the github-copilot-modernization plugin](assets/image.png)
+![GitHub Copilot app confirmation dialog for installing the modernization plugin](assets/image_1.png)
 
 The plugin is installed under the **awesome-copilot** marketplace. Expand the
 marketplace to view all available plugins and activate or deactivate them as
 needed.
 
 
-![alt text](<assets/list plugins.png>)
+![GitHub Copilot app Plugins view with github-copilot-modernization enabled](<assets/list plugins.png>)
 
 You can also view the installed plugin's skills by opening the **Skills** tab in the app, and filter by plugin.
 
-![alt text](<assets/Skills list.png>)
+![GitHub Copilot app Skills view filtered to plugin-provided modernization skills](<assets/Skills list.png>)
 
 **Option 2: Install with the CLI**
 
@@ -239,7 +239,7 @@ You can view installed plugin skills, MCP servers, and agent commands with:
 /env
 ```
 
-![alt text](assets/cli-env-list.png)
+![GitHub Copilot CLI environment output listing modernization skills, agents, and plugins](assets/cli-env-list.png)
 
 ## Step 2: Establish the current baseline
 
@@ -291,7 +291,7 @@ Inspect the repository and capture:
 
 ## Step 3: Check modernization readiness
 
-The plugin discovers Java projects from a `pom.xml` or Gradle build file. From
+The plugin discovers Java projects from a `pom.xml` file. From
 the Order Service project directory, confirm that the build file is present and
 check the required tools:
 
@@ -309,12 +309,12 @@ that will be needed in later levels.
 ## Step 4: Run the assessment
 
 In Github Copilot app, start a new Session in your forked lab repository
-![alt text](assets/add-repo.png)
-![alt text](assets/new-session.png)
+![GitHub Copilot app menu for adding a local folder, GitHub repository, or repository URL](assets/add-repo.png)
+![Order Service repository with a new session in the GitHub Copilot app sidebar](assets/new-session.png)
 
 In the Session, select the `modernize-java-assessment` agent.
-![alt text](assets/agent-select.png)
-![alt text](assets/java-assessment-agent.png)
+![Default agent selector in a new GitHub Copilot app session](assets/agent-select.png)
+![Agent selector with modernize-java-assessment selected](assets/java-assessment-agent.png)
 
 Send the following prompt to the agent:
 ```text
@@ -333,36 +333,27 @@ subagent is still running and can be opened to monitor its progress. Wait for
 the background task to finish and return its evidence-based findings before
 reviewing the generated assessment report.
 
-![alt text](assets/assessment-sub-agent.png)
+![Assessment session showing the created worktree and a running background task](assets/assessment-sub-agent.png)
 
-![alt text](assets/assessment-sub-agent-session.png)
+![Completed assessment session beside the evidence-based Order Service assessment summary](assets/assessment-sub-agent-session.png)
 
-After the assessment is complete, the agent generates a report in Markdown and a list of recommended tasks in JSON. The report includes a summary of the findings,
-recommendations.
+After the assessment is complete, the agent generates a report in Markdown that includes a summary of the findings and recommendations.
 
-![alt text](assets/assessment-report.png)
+![Assessment artifact confirmation showing the path to assessment.md](assets/assessment-report.png)
 
-The assessment report describes the current state of the application, including its dependencies, vulnerabilities, and modernization opportunities. The recommended tasks are prioritized and include validation criteria for each task.
+The assessment report describes the current state of the application, including its dependencies, vulnerabilities, and modernization opportunities.
 
 ![Assessment report showing the current state and modernization targets](assets/assessment-md.png)
+> The opening inventory compares the current Java 8 and Spring Boot 2.7 stack with the Java 25 and Spring Boot 3.5 targets. It also surfaces end-of-life components and vulnerable dependencies that require attention.
 
-> The assessment starts with an evidence-based comparison of the current and target states. It highlights outdated platform versions and critical security issues so that the highest-risk findings are visible immediately.
+![Assessment report showing the current state and modernization targets](assets/assessment-blockers-md.png)
+> The compatibility analysis identifies the concrete changes required for the upgrade.
 
-![Assessment finding with evidence and a recommended Spring Boot upgrade](assets/assessment-recommendations.png)
+![Assessment report showing the current state and modernization targets](assets/assessment-cve-md.png)
+> The security findings trace each CVE to a specific dependency and version, explain its impact, and provide a minimum safe upgrade target.
 
-> Each finding connects repository evidence to its impact and a concrete recommendation. In this example, the report identifies the end-of-life Spring Boot version and proposes a supported upgrade target.
-
-![Recommended phased sequence for the modernization](assets/assessment-recommendations-phases.png)
-
-> The recommendations are organized into phases that address critical vulnerabilities first, then upgrade Spring Boot and Java through controlled, testable steps. Effort estimates and validation activities make the sequence easier to turn into an implementation plan.
-
-![assessment tasks with priorities and remediation details](assets/assessment-tasks.png)
-
-> The assessment also produces structured tasks in JSON. Each task records its phase, priority, category, affected files, effort, and remediation details, making the findings traceable and ready for automated planning.
-
-![Prioritized assessment summary organized by modernization phase](assets/assessment-report-summary.png)
-
->  The concise summary groups the findings by urgency and upgrade phase, links them to supporting evidence, and shows their recommended execution order. Use this view to review priorities and dependencies before accepting the plan.
+![Assessment report showing the current state and modernization sequence](assets/assessment-recommendations-sequence.png)
+> The recommended sequence isolates risk into testable stages: remediate CVEs first, move to Java 17, complete the Spring Boot and Jakarta migration, and then advance to Java 25. Running the full test suite after each stage makes failures easier to identify and resolve.
 
 
 ## Step 5: Validate and refine the findings
@@ -377,31 +368,29 @@ Now that the assessment is complete and validated, you can generate a modernizat
 
 ### Why start a new session?
 
-The first session has completed its assessment role and externalized the information needed for planning into two repository artifacts:
+The first session has completed its assessment role and externalized the information needed for planning into a repository artifact:
 
-- `.github/modernize/assessment/assessment.md` contains the validated findings, supporting evidence, risks, and recommendations;
-- `.github/modernize/assessment/tasks.json` contains the structured and prioritized remediation tasks.
+- `./assessment/assessment.md` contains the validated findings, supporting evidence, risks, and recommendations;
 
-These files provide a durable handoff between the assessment and planning phases, so the planning agent does not need the assessment conversation itself. That conversation may contain source-code scans, command output, subagent messages, intermediate conclusions, and repeated findings. Continuing in the same session makes that history compete with the plan for space in the model's context window and can cause Copilot to process more tokens on every turn.
+This file provides a durable handoff between the assessment and planning phases, so the planning agent does not need the assessment conversation itself. That conversation may contain source-code scans, command output, subagent messages, intermediate conclusions, and repeated findings. Continuing in the same session makes that history compete with the plan for space in the model's context window and can cause Copilot to process more tokens on every turn.
 
 Starting a new session gives the planner a clean context. Copilot only needs to load the final assessment artifacts, the planning prompt, and any relevant project files. This reduces unnecessary token usage, leaves more context capacity for producing a detailed plan, and prevents superseded assessment discussions from distracting the planner from the validated findings.
 
-> **Important:** Before requesting the handoff, make sure `assessment.md` and `tasks.json` are saved and available on the branch or worktree that the new session will use. The files carry the work forward; the previous chat history does not.
+> **Important:** Before requesting the handoff, make sure `assessment.md` is saved and available on the branch or worktree that the new session will use. The files carry the work forward; the previous chat history does not.
 
 You do not need to create the session or change its mode manually. From the completed assessment session, copy and send the following prompt:
-
 ```text
-Start a new session for this repository in Plan mode. In that new session, use @.github/modernize/assessment.md and @.github/modernize/tasks.json as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in those artifacts. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
+Start a new session for this repository in Plan mode. In that new session, use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
 ```
 ![Assessment session creating an isolated planning session](assets/start-new-session.png)
 
-> Copilot confirms that it created a separate planning session grounded in the two assessment artifacts. The assessment session remains unchanged and only coordinates the handoff.
+> Copilot confirms that it created a separate planning session grounded in the assessment artifact. The assessment session remains unchanged and only coordinates the handoff.
 
 ![New planning session running in Plan mode with the planning coordinator](assets/plan-new-session.png)
 
-> The new session appears separately in the repository session list. It runs in **Plan** mode with the planning coordinator agent, loads the modernization-planning skill from the plugin, and reads the assessment artifacts before producing output.
+> The new session appears separately in the repository session list. It runs in **Plan** mode with the planning coordinator agent, loads the modernization-planning skill from the plugin, and references `assessment.md` in the kickoff prompt.
 
-![Generated plan summary with an option to view the full plan](assets/view-plan.png)
+![Generated modernization plan showing the target state and executable tasks](assets/view-plan.png)
 
 > Copilot first presents a concise plan summary for review. It preserves the validated security-first sequence, orders the migration tasks by dependency, identifies the files it will generate, and waits for approval.
 
@@ -419,7 +408,11 @@ Start a new session for this repository in Plan mode. In that new session, use @
 
 ![Generated modernization tasks JSON showing task metadata and dependencies](assets/plan-tasks.png)
 
-> After approval, Copilot persists the executable task graph in `tasks.json`. Each task records its type, identifier, rationale, exact requirements, dependencies, and measurable success criteria, enabling the implementation agents to execute work in the intended order and verify every result.
+> After approval, Copilot persists the executable task graph in `tasks.json`. Each task records its type, exact requirements, dependencies, and measurable success criteria, enabling the implementation agents to execute work in the intended order and verify every result.
+
+![Planning session confirming that plan.md and tasks.json were validated and saved](assets/approved-plan.png)
+
+> After approval, Copilot validates and saves the two planning artifacts, `plan.md` and `tasks.json`, in the repository's `.github/modernize/` directory. No modernization tasks are executed at this stage.
 
 ---
 
@@ -440,6 +433,135 @@ Update plan
 Multi-agent worflow 
 => choose the right model
 => Autopilot
+
+In this level, you will execute the approved modernization plan with GitHub Copilot. You can use either the GitHub Copilot app or GitHub Copilot CLI. Both options invoke the same `modernize` orchestrator and use the plan artifacts created in Level 1 and refined with the guardrails from Level 2.
+
+The implementation is intentionally performed in a separate session. The execution agents need the final `plan.md`, `tasks.json`, rulebook, and project files, but they do not need the assessment and planning conversations.
+
+## Before you begin
+
+Confirm that:
+
+- the final `plan.md` and `tasks.json` are present under
+  `.github/modernize/<plan-name>/`;
+- the plan reflects the guardrails added in Level 2;
+- the approved artifacts are available in the branch or worktree used by the
+  new execution session;
+- the baseline tests from Level 1 pass, or any pre-existing failures have been
+  recorded; and
+- the target JDK and Maven versions required by the approved plan are
+  available.
+
+Do not run two implementation sessions against the same worktree at the same
+time. The executor creates a dedicated `modernize/java-<timestamp>` branch and
+all worker agents contribute to that branch.
+
+## Understand the multi-agent workflow
+
+Only the `modernize` agent is user-invocable. Do not select an execution
+coordinator or worker directly. The orchestrator loads the existing plan and
+delegates its tasks through the following hierarchy:
+
+![Modernization agent hierarchy from orchestrator and coordinators to specialized workers and build validation](assets/agents-flowchart.png)
+
+The execution coordinator groups related Java and Spring Boot upgrades into a single delegation, sends security and migration work to their specialized agents, runs independent work in parallel when possible, and waits for task dependencies before continuing. Each worker is responsible for its code changes, commits, and validation.
+
+## Step 1: Choose the execution model
+
+Model choice affects reasoning quality, tool use, speed, and AI credits consumption. The plugin's agents declare their own [preferred models](https://github.com/microsoft/github-copilot-modernization/blob/8b644bebc7e1f929c01d80788293a37872f480f8/plugins/github-copilot-modernization/agents/execution-coordinator.agent.md?plain=1#L4).
+
+If the configured model is unavailable in your organization, choose an available model optimized for complex coding and agentic tool use.
+
+Record the selected model so you can compare execution time, tool calls, and results with another model after the workshop.
+
+## Step 2: Start the implementation
+
+Remain in the completed planning session after approving the plan. From that same session, send the following handoff prompt:
+
+```text
+Start a new session with the modernize agent in Autopilot mode using Claude sonnet 4.6. In that new session, execute the approved modernization plan for the Order Service from @plan.md. Use @tasks.json as the source of truth, enforce the rulebook, and respect every dependency and validation gate.
+```
+![Planning session creating a separate Autopilot implementation session from the approved plan](assets/start-implementation.png)
+
+Copilot creates a separate implementation session and worktree while leaving the approved planning session unchanged. Open the new session from the repository session list, then verify that it uses the `modernize` agent, runs in **Autopilot** mode, and references the approved `plan.md` and `tasks.json` before implementation begins.
+
+![Modernize Autopilot session delegating the approved plan to the execution coordinator](assets/execute-session.png)
+
+The session delegates implementation tasks to background subagents. Open the **Background** view to inspect which specialized agent owns each task and to follow its progress. Let the orchestration finish before editing files in the execution worktree.
+
+![Implementation session with the execution coordinator running in the Background activity panel](assets/execution-background-session.png)
+## Step 3: Observe the orchestration
+
+While execution is running, identify and record:
+
+1. the branch created for the implementation;
+2. the task groups sent to each specialized worker;
+3. the build or test command used at each release gate; and
+4. any retry, blocked task, or deviation from the approved plan.
+
+![Execution coordinator confirming creation of the timestamped modernization branch](assets/execution-branch.png)
+
+![Security worker removing log4j-core and upgrading commons-text in pom.xml](assets/execution-security-agent.png)
+
+![Java upgrade worker changing Maven compiler settings from Java 8 to Java 17](assets/execution-jdk17.png)
+
+Autopilot removes repetitive approval prompts; it does not remove quality gates. A task is successful only when its required build, tests, and acceptance criteria pass. If a worker reports a failure, preserve its diagnostics and do not approve the remaining dependent tasks as complete. Ask the orchestrator to retry only after you have reviewed the cause.
+
+## Step 4: Review the execution result
+
+When all workers return, inspect the final execution summary. It should state:
+
+- completed and failed tasks;
+- files and dependencies changed;
+- commits created on the modernization branch;
+- build and test results; and
+- any manual follow-up work.
+
+![Execution summary listing all five modernization tasks, worker agents, results, and commits](assets/execution-summary.png)
+
+Review the branch history and working tree before running your own checks
+
+## Step 5: Verify independently
+
+Agent-reported validation is useful evidence, but it does not replace your own
+acceptance check. From the Order Service directory, run:
+
+```bash
+mvn clean test
+mvn clean package
+```
+
+Confirm the effective runtime and build JDK match the approved target:
+
+```bash
+java -version
+mvn -version
+```
+
+Start the modernized backend:
+
+```bash
+mvn spring-boot:run
+```
+
+In another terminal, verify that the existing API contract still works:
+
+```bash
+curl http://localhost:8080/api/orders
+```
+
+Finally, start the frontend and confirm that its order list and create-order
+workflow still work against the modernized API:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Compare these results with the Level 1 baseline. Record any behavior change,
+warning, failed test, or plan deviation before moving to the quality and
+security review in Level 4.
 
 ---
 

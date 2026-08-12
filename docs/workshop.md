@@ -29,7 +29,7 @@ tags: Copilot, Modernization, Agentic, Code          # Required. Tags for filter
 
 *Version 0.1 - July 2026*
 
-The goal of this workshop is to learn how to use GitHub Copilot to efficiently migrate and modernize large codebases with full agentic capabilities and setting up enterprise level guardrails to ensure code quality and security.
+The goal of this workshop is to learn how to use GitHub Copilot to efficiently migrate and modernize large codebases with full agentic capabilities and enterprise-level guardrails to ensure code quality and security.
 
 You can run this workshop using any client of GitHub Copilot but this workshop is specifically designed to serve as a workshop to discover GitHub Copilot App and GitHub Copilot CLI.
 
@@ -43,9 +43,9 @@ You can run this workshop using any client of GitHub Copilot but this workshop i
 
 There are two ways to run this workshop:
 
-- 100% online, with just a web browser and 0 install, with **GitHub Codespaces** and the **Copilot CLI** running on it: fastest and easiest way to start playing immediately with a hosted environment ready to go in seconds.
+- 100% online, with just a web browser and zero installs, with **GitHub Codespaces** and the **Copilot CLI** running on it: fastest and easiest way to start playing immediately with a hosted environment ready to go in seconds.
 
-- locally on **your computer** with either **Copilot CLI** or **Copilot App**: the best way to install and configure the tools you need to work with GitHub Copilot on every projects
+- locally on **your computer** with either **Copilot CLI** or **Copilot App**: the best way to install and configure the tools you need to work with GitHub Copilot on every project
 
 These are the very minimal pre-requisites to run this workshop:
 
@@ -113,7 +113,7 @@ This is the real starting point. When installed, launch the CLI or the App and l
 
 2. Install JDK 17 or later, Maven 3.6 or later
 3. Install [Node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-4. Optionnally, install Docker and the Azure CLI if you want the assessment to include container and Azure readiness.
+4. Optionally, install Docker and the Azure CLI if you want the assessment to include container and Azure readiness.
 
 <div class="info" data-title="tip">
 

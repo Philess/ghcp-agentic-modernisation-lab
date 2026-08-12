@@ -107,7 +107,11 @@ You first need to **install the following tools** locally:
 <br />and/or GitHub Copilot App [as described here](https://github.com/features/ai/github-app)
 <br />We recommend installing both to try both and choose your preferred one.
 
-This is the real starting point. When installed, launch the CLI or the App and login to your GitHub account to activate your license. You will be prompted to login if you are not already logged in.
+This is the real starting point. When installed:
+
+- launch the CLI by typing `gh copilot` in your terminal. In Codespace you will be automatically logged in with your GitHub account and your license will be activated. If you are not logged in, you will be prompted to login.
+
+- launch the Copilot App and login to your GitHub account to activate your license. You will be prompted to login if you are not already logged in.
 
 **You're ready to continue** with
 

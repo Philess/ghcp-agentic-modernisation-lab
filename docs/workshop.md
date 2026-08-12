@@ -425,6 +425,7 @@ Marketplace, plugins, agents, skills & instructions, MCP
 Update plan
 
 ---
+
 # Level 3: Implementation
 
 [Philippe => CLI & Nabil => App]
@@ -461,20 +462,7 @@ Only the `modernize` agent is user-invocable. Do not select an execution
 coordinator or worker directly. The orchestrator loads the existing plan and
 delegates its tasks through the following hierarchy:
 
-```mermaid
-flowchart TD
-    U[Participant] --> O[modernize orchestrator]
-    O --> P[planning coordinator<br/>selects the approved plan]
-    P --> E[execution coordinator<br/>orders tasks and prepares a branch]
-    E --> J[modernize-java-upgrade<br/>Java, Spring Boot, and Jakarta]
-    E --> S[modernize-java-security<br/>CVE remediation]
-    E --> A[modernize-azure-java<br/>Azure service migrations]
-    E --> D[modernize-deployment<br/>containers, IaC, and CI/CD]
-    J --> V[Build and test validation]
-    S --> V
-    A --> V
-    D --> V
-```
+![alt text](assets/agents-flowchart.png)
 
 The execution coordinator groups related Java and Spring Boot upgrades into a single delegation, sends security and migration work to their specialized agents, runs independent work in parallel when possible, and waits for task dependencies before continuing. Each worker is responsible for its code changes, commits, and validation.
 

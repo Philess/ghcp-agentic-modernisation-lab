@@ -123,7 +123,7 @@ code .
 
 Finally, you need login to your GitHub account in Visual Studio Code to activate the GitHub Copilot extensions. The extensions will ask you to login, but if you don't see the prompt, you can login by clicking on the user icon in the bottom left sidebar where you will see the logins for GitHub and GitHub Copilot Chat.
 
-![alt text](assets/gh-login.png)
+![VS Code account menu for signing in to GitHub and GitHub Copilot](assets/gh-login.png)
 
 ## How to run the code?
 
@@ -203,19 +203,19 @@ You can install the plugin using either the GitHub Copilot app or the CLI.
 **Option 1: Install from the GitHub Copilot app**
 
 On the plugin details page, select **Open in GitHub Copilot app** and confirm the installation when prompted.
-![alt text](assets/image.png)
-![alt text](assets/image_1.png)
+![Awesome GitHub Copilot catalog page for the github-copilot-modernization plugin](assets/image.png)
+![GitHub Copilot app confirmation dialog for installing the modernization plugin](assets/image_1.png)
 
 The plugin is installed under the **awesome-copilot** marketplace. Expand the
 marketplace to view all available plugins and activate or deactivate them as
 needed.
 
 
-![alt text](<assets/list plugins.png>)
+![GitHub Copilot app Plugins view with github-copilot-modernization enabled](<assets/list plugins.png>)
 
 You can also view the installed plugin's skills by opening the **Skills** tab in the app, and filter by plugin.
 
-![alt text](<assets/Skills list.png>)
+![GitHub Copilot app Skills view filtered to plugin-provided modernization skills](<assets/Skills list.png>)
 
 **Option 2: Install with the CLI**
 
@@ -239,7 +239,7 @@ You can view installed plugin skills, MCP servers, and agent commands with:
 /env
 ```
 
-![alt text](assets/cli-env-list.png)
+![GitHub Copilot CLI environment output listing modernization skills, agents, and plugins](assets/cli-env-list.png)
 
 ## Step 2: Establish the current baseline
 
@@ -309,12 +309,12 @@ that will be needed in later levels.
 ## Step 4: Run the assessment
 
 In Github Copilot app, start a new Session in your forked lab repository
-![alt text](assets/add-repo.png)
-![alt text](assets/new-session.png)
+![GitHub Copilot app menu for adding a local folder, GitHub repository, or repository URL](assets/add-repo.png)
+![Order Service repository with a new session in the GitHub Copilot app sidebar](assets/new-session.png)
 
 In the Session, select the `modernize-java-assessment` agent.
-![alt text](assets/agent-select.png)
-![alt text](assets/java-assessment-agent.png)
+![Default agent selector in a new GitHub Copilot app session](assets/agent-select.png)
+![Agent selector with modernize-java-assessment selected](assets/java-assessment-agent.png)
 
 Send the following prompt to the agent:
 ```text
@@ -333,13 +333,13 @@ subagent is still running and can be opened to monitor its progress. Wait for
 the background task to finish and return its evidence-based findings before
 reviewing the generated assessment report.
 
-![alt text](assets/assessment-sub-agent.png)
+![Assessment session showing the created worktree and a running background task](assets/assessment-sub-agent.png)
 
-![alt text](assets/assessment-sub-agent-session.png)
+![Completed assessment session beside the evidence-based Order Service assessment summary](assets/assessment-sub-agent-session.png)
 
 After the assessment is complete, the agent generates a report in Markdown that includes a summary of the findings and recommendations.
 
-![alt text](assets/assessment-report.png)
+![Assessment artifact confirmation showing the path to assessment.md](assets/assessment-report.png)
 
 The assessment report describes the current state of the application, including its dependencies, vulnerabilities, and modernization opportunities.
 
@@ -410,7 +410,7 @@ Start a new session for this repository in Plan mode. In that new session, use @
 
 > After approval, Copilot persists the executable task graph in `tasks.json`. Each task records its type, exact requirements, dependencies, and measurable success criteria, enabling the implementation agents to execute work in the intended order and verify every result.
 
-![alt text](assets/approved-plan.png)
+![Planning session confirming that plan.md and tasks.json were validated and saved](assets/approved-plan.png)
 
 > After approval, Copilot validates and saves the two planning artifacts, `plan.md` and `tasks.json`, in the repository's `.github/modernize/` directory. No modernization tasks are executed at this stage.
 
@@ -462,7 +462,7 @@ Only the `modernize` agent is user-invocable. Do not select an execution
 coordinator or worker directly. The orchestrator loads the existing plan and
 delegates its tasks through the following hierarchy:
 
-![alt text](assets/agents-flowchart.png)
+![Modernization agent hierarchy from orchestrator and coordinators to specialized workers and build validation](assets/agents-flowchart.png)
 
 The execution coordinator groups related Java and Spring Boot upgrades into a single delegation, sends security and migration work to their specialized agents, runs independent work in parallel when possible, and waits for task dependencies before continuing. Each worker is responsible for its code changes, commits, and validation.
 
@@ -481,15 +481,15 @@ Remain in the completed planning session after approving the plan. From that sam
 ```text
 Start a new session with the modernize agent in Autopilot mode using Claude sonnet 4.6. In that new session, execute the approved modernization plan for the Order Service from @plan.md. Use @tasks.json as the source of truth, enforce the rulebook, and respect every dependency and validation gate.
 ```
-![alt text](assets/start-implementation.png)
+![Planning session creating a separate Autopilot implementation session from the approved plan](assets/start-implementation.png)
 
 Copilot creates a separate implementation session and worktree while leaving the approved planning session unchanged. Open the new session from the repository session list, then verify that it uses the `modernize` agent, runs in **Autopilot** mode, and references the approved `plan.md` and `tasks.json` before implementation begins.
 
-![alt text](assets/execute-session.png)
+![Modernize Autopilot session delegating the approved plan to the execution coordinator](assets/execute-session.png)
 
 The session delegates implementation tasks to background subagents. Open the **Background** view to inspect which specialized agent owns each task and to follow its progress. Let the orchestration finish before editing files in the execution worktree.
 
-![alt text](assets/execution-background-session.png)
+![Implementation session with the execution coordinator running in the Background activity panel](assets/execution-background-session.png)
 ## Step 3: Observe the orchestration
 
 While execution is running, identify and record:
@@ -499,11 +499,11 @@ While execution is running, identify and record:
 3. the build or test command used at each release gate; and
 4. any retry, blocked task, or deviation from the approved plan.
 
-![alt text](assets/execution-branch.png)
+![Execution coordinator confirming creation of the timestamped modernization branch](assets/execution-branch.png)
 
-![alt text](assets/execution-security-agent.png)
+![Security worker removing log4j-core and upgrading commons-text in pom.xml](assets/execution-security-agent.png)
 
-![alt text](assets/execution-jdk17.png)
+![Java upgrade worker changing Maven compiler settings from Java 8 to Java 17](assets/execution-jdk17.png)
 
 Autopilot removes repetitive approval prompts; it does not remove quality gates. A task is successful only when its required build, tests, and acceptance criteria pass. If a worker reports a failure, preserve its diagnostics and do not approve the remaining dependent tasks as complete. Ask the orchestrator to retry only after you have reviewed the cause.
 
@@ -517,7 +517,7 @@ When all workers return, inspect the final execution summary. It should state:
 - build and test results; and
 - any manual follow-up work.
 
-![alt text](assets/execution-summary.png)
+![Execution summary listing all five modernization tasks, worker agents, results, and commits](assets/execution-summary.png)
 
 Review the branch history and working tree before running your own checks
 

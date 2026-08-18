@@ -3,16 +3,18 @@
 {
   "name": "Workshop",
 
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  // Alternatives images:
-  // - python:3.11-bullseye
-  // - dotnet:6.0-bullseye
-  // - javascript-node:20-bullseye
-  // - java:21-bullseye
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:20-bullseye",
+  "image": "mcr.microsoft.com/devcontainers/java:1-17-bookworm",
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "none",
+      "installMaven": true,
+      "mavenVersion": "latest"
+    },
+    "ghcr.io/devcontainers/features/node:2": {
+      "version": "22"
+    },
     "ghcr.io/devcontainers/features/azure-cli:1": {
       "version": "latest",
       "installBicep": true
@@ -26,7 +28,9 @@
     "vscode": {
       "extensions": [
         "ms-azuretools.azure-dev",
-        "ms-azuretools.vscode-bicep"
+        "ms-azuretools.vscode-bicep",
+        "redhat.java",
+        "vmware.vscode-spring-boot"
       ]
     }
   },
@@ -35,7 +39,7 @@
   "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "npm install -g @moaw/cli",
+  "postCreateCommand": "npm install -g @moaw/cli @github/copilot",
 
   // Set minimal host requirements for the container.
   // "hostRequirements": {

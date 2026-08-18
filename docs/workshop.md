@@ -1,16 +1,18 @@
 ---
 published: false                        # Optional. Set to true to publish the workshop (default: false)
 type: workshop                          # Required.
-title: Full workshop title              # Required. Full title of the workshop
-short_title: Short title                # Optional. Short title displayed in the header
-description: This is a workshop for...  # Required.
+title: Agentic Code Migration with GitHub Copilot App and GitHub Copilot CLI # Required. Full title of the workshop
+short_title: Copilot App & CLI - Agentic Code Migration # Optional. Short title displayed in the header
+description: This is a workshop for learning how to efficiently migrate and modernize large codebases with the full Agentic power of GitHub Copilot. It's also a great introduction for GitHub Copilot CLI and GitHub Copilot App  # Required.
 level: beginner                         # Required. Can be 'beginner', 'intermediate' or 'advanced'
 authors:                                # Required. You can add as many authors as needed      
-  - Name
+  - Philippe DIDIERGEORGES
+  - Nabil ABBAR
 contacts:                               # Required. Must match the number of authors
-  - Author's email, Twitter...
-duration_minutes: 20                    # Required. Estimated duration in minutes
-tags: javascript, api, node.js          # Required. Tags for filtering and searching
+  - "@Philess"
+  - "@ABBARNABIL"
+duration_minutes: 120                    # Required. Estimated duration in minutes
+tags: Copilot, Modernization, Agentic, Code          # Required. Tags for filtering and searching
 #banner_url: assets/banner.jpg           # Optional. Should be a 1280x640px image
 #video_url: https://youtube.com/link     # Optional. Link to a video of the workshop
 #audience: students                      # Optional. Audience of the workshop (students, pro devs, etc.)
@@ -27,13 +29,13 @@ tags: javascript, api, node.js          # Required. Tags for filtering and searc
 
 *Version 0.1 - July 2026*
 
-The goal of this workshop is to learn how to use GitHub Copilot, .....
+The goal of this workshop is to learn how to use GitHub Copilot to efficiently migrate and modernize large codebases with full agentic capabilities and enterprise-level guardrails to ensure code quality and security.
 
-GitHub Copilot is an AI-powered code assistant that helps developers write better code faster. It uses machine learning models trained on billions of lines of code to suggest whole lines or entire functions based on the context of what you’re working on. By using GitHub Copilot, you can learn how to write better code and improve your productivity.
+You can run this workshop using any client of GitHub Copilot but this workshop is specifically designed to serve as a workshop to discover GitHub Copilot App and GitHub Copilot CLI.
 
 <div class="warning" data-title="warning">
 
-> GitHub Copilot is a quickly evolving product and thus this workshop may not be 100% up to date with the different features of the various extensions you are going to use. Please be adaptable if it's not exactly the same.
+> GitHub Copilot, its App and CLI, are a quickly evolving product and thus this workshop may not be 100% up to date with the different features of the various extensions you are going to use. Please be adaptable if it's not exactly the same.
 
 </div>
 
@@ -41,9 +43,9 @@ GitHub Copilot is an AI-powered code assistant that helps developers write bette
 
 There are two ways to run this workshop:
 
-- online with **GitHub Codespaces**: fastest and easiest way to start playing immediately with a hosted environment ready to go in seconds.
+- 100% online, with just a web browser and zero installs, with **GitHub Codespaces** and the **Copilot CLI** running on it: fastest and easiest way to start playing immediately with a hosted environment ready to go in seconds.
 
-- locally on **your computer**: the best way to install and configure the tools you need to work with GitHub Copilot on every projects
+- locally on **your computer** with either **Copilot CLI** or **Copilot App**: the best way to install and configure the tools you need to work with GitHub Copilot on every project
 
 These are the very minimal pre-requisites to run this workshop:
 
@@ -64,7 +66,7 @@ There are different ways to get access to GitHub Copilot:
 
 <div class="warning" data-title="warning">
 
-> The **Copilot Free** offer does not include the feature on the github.com platform like the Coding Agent and the Code Review agent that are part of this workshop. You can still run 90% of this workshop with a free subscription but for the rest you will need a paid license.
+> The **Copilot Free** offer includes only a limited amount of AI Credits that will probably limit your usage. You can still run a majority of this workshop with a free subscription but to finish it completely you will need a paid license.
 
 </div>
 
@@ -72,7 +74,7 @@ There are different ways to get access to GitHub Copilot:
 
 This workshop uses the following GitHub Repository: *** link to the repo ***
 
-This repository is a code starter that will help you experiment all capabilities with GitHub Copilot. Take the time to look at the architecture design displayed.
+This repository contains a code starter that will help you experiment all capabilities with GitHub Copilot. Take the time to look at the architecture design displayed.
 
 Start by creating **your own fork** of the repository by clicking on the `Fork` button on the top right of the repository page. It will create a copy of the repository in your own GitHub account and you will be free to make any changes you want.
 
@@ -92,38 +94,48 @@ To start programming just start a new codespace and you are ready to go, don't n
 
 ![create codespace](assets/create-codespace.png)
 
-After just a few seconds, you will be redirected to your Codespace environment, a full developement environment ready to go in the browser.
-**You can start coding right away**, your GitHub Copilot extensions are already installed and configured.
-
-For an even better experience, and if you have VS Code installed on your local computer, you can open the Codespace in your local Visual Studio Code by clicking on the `Open in VS Code` button on the top left menu of your Codespace interface.
-![open codespace in vs code menu](assets/codespace-open-vscode.png)
-
-Once the Codespace created, you will be able to choose if you want to open codespace in the browser or in your local VS Code from the GitHub repository page directly.
-
-![open codespace in vscode](assets/open-codespace-vscode.png)
+After just a few seconds, you will be redirected to your Codespace environment, a full development environment ready to go in the browser.
+**You can start coding right away**, your environment and dependencies are already installed and configured.
 
 ## OPTION 2: Work locally with GitHub Copilot App or GitHub Copilot CLI
 
-You can choose to work locally on your computer for this workshop and take that as an opportunity to install and configure the tools you'll need to work with GitHub Copilot on your projects.
+You can choose to **work locally on your computer** for this workshop and take that as an opportunity to install and configure the tools you'll need to work with GitHub Copilot on your projects.
 
-You first need to install the following tools locally:
+You first need to **install the following tools** locally:
 
-1. Install [Visual Studio Code](https://code.visualstudio.com/)
-2. Install the [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) extension
-3. Install the [GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) extension
-4. Install [Node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-5. Install [.NET Core](https://dotnet.microsoft.com/download) \* *needed if you want to run provided .net code*
-6. Clone your forked repository and open it in VS Code:
+1. GitHub Copilot CLI [as described here](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli)
+<br />and/or GitHub Copilot App [as described here](https://github.com/features/ai/github-app)
+<br />We recommend installing both to try both and choose your preferred one.
 
-```bash
-git clone https://github.com/<YourUser>/gh-copilot-demo
-cd gh-copilot-demo
-code .
+This is the real starting point. When installed:
+
+- launch the CLI by typing `gh copilot` in your terminal. In Codespace you will be automatically logged in with your GitHub account and your license will be activated. If you are not logged in, you will be prompted to login.
+
+- launch the Copilot App and login to your GitHub account to activate your license. You will be prompted to login if you are not already logged in.
+
+**You're ready to continue** with
+
+2. Install JDK 17 or later, Maven 3.6 or later
+3. Install [Node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+4. Optionally, install Docker and the Azure CLI if you want the assessment to include container and Azure readiness.
+
+<div class="info" data-title="tip">
+
+> Instead of installing all the tools manually, you can just ask GitHub Copilot in the CLI or in the App to install all the missing tools for you. 
+
+Open **a new CLI session** or **in the app, open a new chat** with 'CTRL + SHIFT + O' and just ask it to:
+
+</div>
+
+```md
+I need some tools to run a workshop. Help me install:
+- JDK 17 or later, Maven 3.6 or later
+- Node and npm
+- Docker and the Azure CLI 
 ```
 
-Finally, you need login to your GitHub account in Visual Studio Code to activate the GitHub Copilot extensions. The extensions will ask you to login, but if you don't see the prompt, you can login by clicking on the user icon in the bottom left sidebar where you will see the logins for GitHub and GitHub Copilot Chat.
+![new chat](assets/ghcp-app-new-chat.png)
 
-![VS Code account menu for signing in to GitHub and GitHub Copilot](assets/gh-login.png)
 
 ## How to run the code?
 
@@ -141,7 +153,7 @@ Take a look at it, and be sure to run at least the front-end app before going fu
 
 If you face any challenge or bug running this workshop, please let us know. Your help will be invaluable in making this workshop better, specially as we try to maintain it on a regular basis to keep it up-to-date.
 
-[Report any problem here.](https://github.com/Philess/GHCopilotHoL/issues/new)
+[Report any problem here.](https://github.com/Philess/ghcp-agentic-modernisation-lab/issues/new)
 
 ---
 
@@ -155,17 +167,7 @@ produce an actionable plan.
 
 ## Before you begin
 
-You need:
-
-- the workshop repository cloned and opened;
-- a terminal positioned at the bundled Java project root,
-  `app/Java - Spring Boot/Order Service`;
-- the [GitHub Copilot app](https://github.com/github/app#install) or
-  [GitHub Copilot CLI](https://github.com/github/copilot-cli), installed and
-  signed in to your GitHub account;
-- JDK 17 or later, Maven 3.6 or later, Node.js 18 or later, and Git; and
-- Docker and the Azure CLI if you want the assessment to include container and
-  Azure readiness.
+Make sure you completed all the required pre-requisites and installed the required tools. You should have a working environment with either GitHub Copilot App or GitHub Copilot CLI. You should also have forked the repository and have access to the code.
 
 Do not start upgrading dependencies or editing application code yet. Level 1
 is complete when the findings and plan have been reviewed.

@@ -1,0 +1,8 @@
+{
+  "name": "ghcp-agentic-modernisation-lab",
+  "private": true,
+  "version": "0.0.0",
+  "devDependencies": {
+    "@moaw/cli": "^1.6.0"
+  }
+}

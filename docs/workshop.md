@@ -39,13 +39,45 @@ You can run this workshop using any client of GitHub Copilot but this workshop i
 
 </div>
 
+## Choose your GitHub Copilot path
+
+Select the GitHub Copilot experience you will use for this workshop. Your
+choice is stored in the workshop URL, so the following pages only show the
+instructions for your selected path.
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url">Use GitHub Copilot CLI</button>
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url">Use GitHub Copilot app</button>
+
+<div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
+
+> You selected **GitHub Copilot CLI**. This choice is encoded in the URL as
+> `vars=copilot_cli:1`.
+
+</div>
+
+<div class="info" data-title="Selected path" data-visible="$$copilot_app$$">
+
+> You selected the **GitHub Copilot app**. This choice is encoded in the URL as
+> `vars=copilot_app:1`.
+
+</div>
+
 ## Minimal Pre-requisites
 
-There are two ways to run this workshop:
+ <div data-visible="$$copilot_cli$$">
 
-- 100% online, with just a web browser and zero installs, with **GitHub Codespaces** and the **Copilot CLI** running on it: fastest and easiest way to start playing immediately with a hosted environment ready to go in seconds.
+You can use **GitHub Copilot CLI** either online in GitHub Codespaces, with no
+local installation, or locally on your computer.
 
-- locally on **your computer** with either **Copilot CLI** or **Copilot App**: the best way to install and configure the tools you need to work with GitHub Copilot on every project
+</div>
+
+<div data-visible="$$copilot_app$$">
+
+The **GitHub Copilot app** runs locally on your computer and provides a
+dedicated graphical experience for agentic development.
+
+</div>
 
 These are the very minimal pre-requisites to run this workshop:
 
@@ -80,7 +112,13 @@ Start by creating **your own fork** of the repository by clicking on the `Fork` 
 
 ![fork repo](assets/fork-repo.png)
 
-## OPTION 1: Work with GitHub Copilot CLI on Codespaces
+## Set up your selected GitHub Copilot client
+
+<div data-visible="$$copilot_cli$$">
+
+You can run GitHub Copilot CLI in GitHub Codespaces or on your local computer.
+
+**Use GitHub Copilot CLI in Codespaces**
 
 The environment is already configured to work with [GitHub Codespaces](https://github.com/features/codespaces), you can find the configuration files in the *.devcontainer* folder.
 
@@ -97,33 +135,67 @@ To start programming just start a new codespace and you are ready to go, don't n
 After just a few seconds, you will be redirected to your Codespace environment, a full development environment ready to go in the browser.
 **You can start coding right away**, your environment and dependencies are already installed and configured.
 
-## OPTION 2: Work locally with GitHub Copilot App or GitHub Copilot CLI
+Open a terminal in the Codespace and launch GitHub Copilot CLI:
 
-You can choose to **work locally on your computer** for this workshop and take that as an opportunity to install and configure the tools you'll need to work with GitHub Copilot on your projects.
+```bash
+copilot
+```
 
-You first need to **install the following tools** locally:
+Your GitHub account and Copilot license are available automatically in the
+Codespace.
 
-1. GitHub Copilot CLI [as described here](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli)
-<br />and/or GitHub Copilot App [as described here](https://github.com/features/ai/github-app)
-<br />We recommend installing both to try both and choose your preferred one.
+**Use GitHub Copilot CLI locally**
 
-This is the real starting point. When installed:
+Install [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli),
+open a terminal in your forked repository, and run:
 
-- launch the CLI by typing `gh copilot` in your terminal. In Codespace you will be automatically logged in with your GitHub account and your license will be activated. If you are not logged in, you will be prompted to login.
+```bash
+copilot
+```
 
-- launch the Copilot App and login to your GitHub account to activate your license. You will be prompted to login if you are not already logged in.
+Sign in with the GitHub account that has access to Copilot when prompted.
 
-**You're ready to continue** with
+</div>
 
-2. Install JDK 17 or later, Maven 3.6 or later
-3. Install [Node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-4. Optionally, install Docker and the Azure CLI if you want the assessment to include container and Azure readiness.
+<div data-visible="$$copilot_app$$">
+
+Install the [GitHub Copilot app](https://github.com/features/ai/github-app),
+launch it, and sign in with the GitHub account that has access to Copilot.
+
+Open your forked repository in the app, then create a new chat with
+`Ctrl+Shift+O`.
+
+![GitHub Copilot app new chat](assets/ghcp-app-new-chat.png)
+
+</div>
+
+## Install the project tooling
+
+If you are working locally, install the following tools:
+
+1. JDK 17 or later and Maven 3.6 or later
+2. [Node.js and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+3. Optionally, Docker and the Azure CLI if you want the assessment to include container and Azure readiness.
+
+The Codespaces environment already includes the required project tooling.
 
 <div class="info" data-title="tip">
 
-> Instead of installing all the tools manually, you can just ask GitHub Copilot in the CLI or in the App to install all the missing tools for you. 
+> Instead of installing each tool manually, you can ask your selected GitHub
+> Copilot client to help you install anything that is missing.
 
-Open **a new CLI session** or **in the app, open a new chat** with 'CTRL + SHIFT + O' and just ask it to:
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+Open a GitHub Copilot CLI session and enter this prompt:
+
+</div>
+
+<div data-visible="$$copilot_app$$">
+
+In the GitHub Copilot app, open a new chat with `Ctrl+Shift+O` and enter this
+prompt:
 
 </div>
 
@@ -134,8 +206,11 @@ I need some tools to run a workshop. Help me install:
 - Docker and the Azure CLI 
 ```
 
+<div data-visible="$$copilot_app$$">
+
 ![new chat](assets/ghcp-app-new-chat.png)
 
+</div>
 
 ## How to run the code?
 
@@ -167,7 +242,7 @@ produce an actionable plan.
 
 ## Before you begin
 
-Make sure you completed all the required pre-requisites and installed the required tools. You should have a working environment with either GitHub Copilot App or GitHub Copilot CLI. You should also have forked the repository and have access to the code.
+Make sure you completed all the required pre-requisites and installed the required tools. You should have a working environment with your selected GitHub Copilot client. You should also have forked the repository and have access to the code.
 
 Do not start upgrading dependencies or editing application code yet. Level 1
 is complete when the findings and plan have been reviewed.
@@ -200,9 +275,11 @@ questions:
 3. Where does it write assessment and planning artifacts?
 4. How can an enterprise rulebook constrain its recommendations?
 
-You can install the plugin using either the GitHub Copilot app or the CLI.
+Install the plugin using your selected GitHub Copilot client.
 
-**Option 1: Install from the GitHub Copilot app**
+<div data-visible="$$copilot_app$$">
+
+**Install from the GitHub Copilot app**
 
 On the plugin details page, select **Open in GitHub Copilot app** and confirm the installation when prompted.
 ![Awesome GitHub Copilot catalog page for the github-copilot-modernization plugin](assets/image.png)
@@ -219,7 +296,11 @@ You can also view the installed plugin's skills by opening the **Skills** tab in
 
 ![GitHub Copilot app Skills view filtered to plugin-provided modernization skills](<assets/Skills list.png>)
 
-**Option 2: Install with the CLI**
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+**Install with GitHub Copilot CLI**
 
 Follow the plugin repository's installation instructions:
 
@@ -242,6 +323,8 @@ You can view installed plugin skills, MCP servers, and agent commands with:
 ```
 
 ![GitHub Copilot CLI environment output listing modernization skills, agents, and plugins](assets/cli-env-list.png)
+
+</div>
 
 ## Step 2: Establish the current baseline
 
@@ -310,7 +393,10 @@ that will be needed in later levels.
 
 ## Step 4: Run the assessment
 
-In Github Copilot app, start a new Session in your forked lab repository
+<div data-visible="$$copilot_app$$">
+
+In the GitHub Copilot app, start a new session in your forked lab repository.
+
 ![GitHub Copilot app menu for adding a local folder, GitHub repository, or repository URL](assets/add-repo.png)
 ![Order Service repository with a new session in the GitHub Copilot app sidebar](assets/new-session.png)
 
@@ -318,10 +404,30 @@ In the Session, select the `modernize-java-assessment` agent.
 ![Default agent selector in a new GitHub Copilot app session](assets/agent-select.png)
 ![Agent selector with modernize-java-assessment selected](assets/java-assessment-agent.png)
 
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+From the root of your forked lab repository, start GitHub Copilot CLI:
+
+```bash
+copilot
+```
+
+Enter `/agent`, then select `modernize-java-assessment` from the agent picker.
+The plugin declares this assessment agent as user-invocable and configures its
+preferred model.
+
+</div>
+
 Send the following prompt to the agent:
+
 ```text
 Assess this Java application Order Service for migration to Java 25, upgrading Spring Boot, and remediating security vulnerabilities.
 ```
+
+<div data-visible="$$copilot_app$$">
+
 GitHub Copilot creates a Git worktree for the session. 
 A worktree is an additional checkout linked to the same Git repository: it shares the
 repository's history and objects while maintaining its own working directory,
@@ -339,11 +445,24 @@ reviewing the generated assessment report.
 
 ![Completed assessment session beside the evidence-based Order Service assessment summary](assets/assessment-sub-agent-session.png)
 
-After the assessment is complete, the agent generates a report in Markdown that includes a summary of the findings and recommendations.
-
 ![Assessment artifact confirmation showing the path to assessment.md](assets/assessment-report.png)
 
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+The assessment agent can delegate detailed analysis to background subagents.
+Enter `/tasks` to inspect active work and wait for every assessment task to
+finish. When the agent returns its final summary, confirm the generated report
+path and open the Markdown report in your editor.
+
+</div>
+
+After the assessment is complete, the agent generates a report in Markdown that includes a summary of the findings and recommendations.
+
 The assessment report describes the current state of the application, including its dependencies, vulnerabilities, and modernization opportunities.
+
+<div data-visible="$$copilot_app$$">
 
 ![Assessment report showing the current state and modernization targets](assets/assessment-md.png)
 > The opening inventory compares the current Java 8 and Spring Boot 2.7 stack with the Java 25 and Spring Boot 3.5 targets. It also surfaces end-of-life components and vulnerable dependencies that require attention.
@@ -357,6 +476,7 @@ The assessment report describes the current state of the application, including 
 ![Assessment report showing the current state and modernization sequence](assets/assessment-recommendations-sequence.png)
 > The recommended sequence isolates risk into testable stages: remediate CVEs first, move to Java 17, complete the Spring Boot and Jakarta migration, and then advance to Java 25. Running the full test suite after each stage makes failures easier to identify and resolve.
 
+</div>
 
 ## Step 5: Validate and refine the findings
 
@@ -379,6 +499,8 @@ This file provides a durable handoff between the assessment and planning phases,
 Starting a new session gives the planner a clean context. Copilot only needs to load the final assessment artifacts, the planning prompt, and any relevant project files. This reduces unnecessary token usage, leaves more context capacity for producing a detailed plan, and prevents superseded assessment discussions from distracting the planner from the validated findings.
 
 > **Important:** Before requesting the handoff, make sure `assessment.md` is saved and available on the branch or worktree that the new session will use. The files carry the work forward; the previous chat history does not.
+
+<div data-visible="$$copilot_app$$">
 
 You do not need to create the session or change its mode manually. From the completed assessment session, copy and send the following prompt:
 ```text
@@ -416,6 +538,37 @@ Start a new session for this repository in Plan mode. In that new session, use @
 
 > After approval, Copilot validates and saves the two planning artifacts, `plan.md` and `tasks.json`, in the repository's `.github/modernize/` directory. No modernization tasks are executed at this stage.
 
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+In the completed assessment session, first confirm that `assessment.md` is
+saved. Then enter `/new` to start a clean conversation, enter `/agent`, and
+select the user-invocable `modernize` orchestrator. The orchestrator delegates
+planning to the plugin's internal planning coordinator.
+
+Press `Shift+Tab` until the status line shows **Plan** mode, then enter:
+
+```text
+Use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
+```
+
+Review the proposed plan in the terminal. Enter `/session plan` whenever you
+want to reopen it, and request revisions until the scope, ordering, dependencies,
+and validation gates match the assessment.
+
+When the plan is ready, choose **Exit plan mode and I will prompt myself**, then
+enter:
+
+```text
+Persist the approved modernization plan as plan.md and tasks.json under .github/modernize/. Validate both artifacts and stop without executing any modernization task.
+```
+
+Confirm that both files were written and that no application source files were
+changed.
+
+</div>
+
 ---
 
 # Level 2: Setup the guardrails
@@ -430,13 +583,11 @@ Update plan
 
 # Level 3: Implementation
 
-[Philippe => CLI & Nabil => App]
-
 Multi-agent worflow 
 => choose the right model
 => Autopilot
 
-In this level, you will execute the approved modernization plan with GitHub Copilot. You can use either the GitHub Copilot app or GitHub Copilot CLI. Both options invoke the same `modernize` orchestrator and use the plan artifacts created in Level 1 and refined with the guardrails from Level 2.
+In this level, you will execute the approved modernization plan with your selected GitHub Copilot client. Both paths invoke the same `modernize` orchestrator and use the plan artifacts created in Level 1 and refined with the guardrails from Level 2.
 
 The implementation is intentionally performed in a separate session. The execution agents need the final `plan.md`, `tasks.json`, rulebook, and project files, but they do not need the assessment and planning conversations.
 
@@ -476,7 +627,23 @@ If the configured model is unavailable in your organization, choose an available
 
 Record the selected model so you can compare execution time, tool calls, and results with another model after the workshop.
 
+<div data-visible="$$copilot_app$$">
+
+Use the model picker in the GitHub Copilot app to select the model for the new
+implementation session.
+
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+Enter `/model` in GitHub Copilot CLI and select the model for the implementation
+session.
+
+</div>
+
 ## Step 2: Start the implementation
+
+<div data-visible="$$copilot_app$$">
 
 Remain in the completed planning session after approving the plan. From that same session, send the following handoff prompt:
 
@@ -489,9 +656,46 @@ Copilot creates a separate implementation session and worktree while leaving the
 
 ![Modernize Autopilot session delegating the approved plan to the execution coordinator](assets/execute-session.png)
 
-The session delegates implementation tasks to background subagents. Open the **Background** view to inspect which specialized agent owns each task and to follow its progress. Let the orchestration finish before editing files in the execution worktree.
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+From the completed planning conversation, confirm that the approved `plan.md`
+and `tasks.json` are available, then enter `/new`. Enter `/agent` and select the
+user-invocable `modernize` orchestrator. Enter `/model` and select Claude Sonnet
+4.6, or the closest model available in your organization.
+
+Press `Shift+Tab` until the status line shows **Autopilot** mode. Review the
+permission prompt carefully; grant the permissions required by the plan only in
+the isolated workshop repository or Codespace.
+
+Enter this prompt:
+
+```text
+Execute the approved modernization plan for the Order Service from @plan.md. Use @tasks.json as the source of truth, enforce the rulebook, and respect every dependency and validation gate.
+```
+
+Let the orchestration finish before editing files in the implementation worktree.
+
+</div>
+
+<div data-visible="$$copilot_app$$">
+
+The session delegates implementation tasks to background subagents. Open the **Background** view to inspect which specialized agent owns each task and to follow its progress.
 
 ![Implementation session with the execution coordinator running in the Background activity panel](assets/execution-background-session.png)
+
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+The session delegates implementation tasks to background subagents. Enter
+`/tasks` to inspect ownership and progress. Select a task to view its details or
+open the delegated agent's session, then return to the main session and allow
+the orchestration to finish.
+
+</div>
+
 ## Step 3: Observe the orchestration
 
 While execution is running, identify and record:
@@ -501,11 +705,27 @@ While execution is running, identify and record:
 3. the build or test command used at each release gate; and
 4. any retry, blocked task, or deviation from the approved plan.
 
+<div data-visible="$$copilot_app$$">
+
 ![Execution coordinator confirming creation of the timestamped modernization branch](assets/execution-branch.png)
 
 ![Security worker removing log4j-core and upgrading commons-text in pom.xml](assets/execution-security-agent.png)
 
 ![Java upgrade worker changing Maven compiler settings from Java 8 to Java 17](assets/execution-jdk17.png)
+
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+Use `/tasks` to follow active and completed subagents. You can also inspect the
+implementation branch and recent commits without leaving the CLI by entering:
+
+```text
+!git branch --show-current
+!git log --oneline --decorate -10
+```
+
+</div>
 
 Autopilot removes repetitive approval prompts; it does not remove quality gates. A task is successful only when its required build, tests, and acceptance criteria pass. If a worker reports a failure, preserve its diagnostics and do not approve the remaining dependent tasks as complete. Ask the orchestrator to retry only after you have reviewed the cause.
 
@@ -519,7 +739,19 @@ When all workers return, inspect the final execution summary. It should state:
 - build and test results; and
 - any manual follow-up work.
 
+<div data-visible="$$copilot_app$$">
+
 ![Execution summary listing all five modernization tasks, worker agents, results, and commits](assets/execution-summary.png)
+
+</div>
+
+<div data-visible="$$copilot_cli$$">
+
+Enter `/tasks` and confirm that no implementation task is still active. Then
+enter `/diff` to review the modernization branch changes from inside GitHub
+Copilot CLI.
+
+</div>
 
 Review the branch history and working tree before running your own checks
 

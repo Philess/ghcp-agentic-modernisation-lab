@@ -295,7 +295,6 @@ needed.
 You can also view the installed plugin's skills by opening the **Skills** tab in the app, and filter by plugin.
 
 ![GitHub Copilot app Skills view filtered to plugin-provided modernization skills](<assets/Skills list.png>)
-
 </div>
 
 <div data-visible="$$copilot_cli$$">
@@ -330,7 +329,48 @@ You can view installed plugin skills, MCP servers, and agent commands with:
 
 Before asking GitHub Copilot to assess the project, confirm that the existing
 application can be built and tested in its current state. From the Order
-Service project directory, run:
+Service project directory
+
+<div data-visible="$$copilot_app$$">
+
+In the GitHub Copilot app, start a new session in your forked lab repository.
+
+![GitHub Copilot app menu for adding a local folder, GitHub repository, or repository URL](assets/add-repo.png)
+![Order Service repository with a new session in the GitHub Copilot app sidebar](assets/new-session.png)
+> Create a new session for the baseline checks. Keeping this work in a separate
+> session makes the original build and runtime evidence easier to review later.
+
+Enter `!` alone on an empty prompt to enter shell mode.
+
+![GitHub Copilot app shell mode command prompt](assets/shell-command.png)
+> Shell mode runs commands directly in the repository environment. Change to
+> the Order Service directory, then run `mvn clean test` and `mvn clean package`.
+> Record any failure.
+
+![GitHub Copilot app terminal showing the baseline Maven commands](assets/terminal-run.png)
+> After the tests and package build complete, run `mvn spring-boot:run` to start
+> the backend. Leave this terminal running for the API and frontend checks.
+> Open the built-in interactive browser canvas to view the API response.
+
+![GitHub Copilot app terminal running Spring Boot application](assets/spring-boot-run.png)
+> Confirm that Spring Boot starts without errors and note any warnings. Open
+> `http://localhost:8080/api/orders` to verify that the seeded API responds.
+
+![GitHub Copilot app browser view](assets/github-app-browser.png)
+> The browser response establishes the baseline API contract.
+
+![GitHub Copilot app terminal running frontend application](assets/terminal-frontend-run.png)
+> Open another terminal, change to the `frontend` directory, and run
+> `npm install` followed by `npm run dev`. Keep the backend running.
+
+![GitHub Copilot app terminal running frontend application](assets/running-frontend.png)
+> Open `http://localhost:5173` and confirm that the order list loads from the
+> backend. Also exercise the create-order workflow and record any browser or
+> terminal errors as baseline evidence.
+
+</div>
+
+<div data-visible="$$copilot_cli$$">
 
 ```bash
 cd "app/Java - Spring Boot/Order Service"
@@ -368,6 +408,7 @@ npm run dev
 Open `http://localhost:5173` and confirm that the UI can retrieve orders from
 the backend. Record the test results, API response, and any startup warnings as
 part of the baseline.
+</div>
 
 Inspect the repository and capture:
 
@@ -394,11 +435,6 @@ that will be needed in later levels.
 ## Step 4: Run the assessment
 
 <div data-visible="$$copilot_app$$">
-
-In the GitHub Copilot app, start a new session in your forked lab repository.
-
-![GitHub Copilot app menu for adding a local folder, GitHub repository, or repository URL](assets/add-repo.png)
-![Order Service repository with a new session in the GitHub Copilot app sidebar](assets/new-session.png)
 
 In the Session, select the `modernize-java-assessment` agent.
 ![Default agent selector in a new GitHub Copilot app session](assets/agent-select.png)

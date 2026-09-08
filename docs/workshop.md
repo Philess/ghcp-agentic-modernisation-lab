@@ -412,7 +412,7 @@ Enter `!` alone on an empty prompt to enter shell mode.
 > `npm install` followed by `npm run dev`. Keep the backend running.
 
 ![GitHub Copilot app terminal running frontend application](assets/running-frontend.png)
-> Open `http://localhost:5173` and confirm that the order list loads from the
+> Open `http://localhost:5173` (or click on the link in the terminal in codespace) and confirm that the order list loads from the
 > backend. Also exercise the create-order workflow and record any browser or
 > terminal errors as baseline evidence.
 
@@ -462,7 +462,7 @@ part of the baseline.
 
 <div class="info" data-title="tip">
 
-> Instead of launching all these commands manually you can also simply ask to copilot to "Start may backend and my frontend" and it will do the same for you. Sometimes it's just important to do things manually to better understand what's your dealing with but copilot is also a very powerfull tool to discovers new codebase.
+> Instead of launching all these commands manually you can also simply ask to copilot to <b>"Build and launch my App. Install dependencies and start my backend and my frontend"</b> and it will do the same for you. Sometimes it's just important to do things manually to better understand what's your dealing with but copilot is also a very powerfull tool to discovers new codebase.
 
 </div>
 
@@ -496,6 +496,8 @@ that will be needed in later levels.
 
 <div data-visible="$$copilot_app$$">
 
+Start by selecting the "Auto" model to let copilot choose the most token and performance optimized model for the coming task.
+
 In the Session, select the `modernize-java-assessment` agent.
 ![Default agent selector in a new GitHub Copilot app session](assets/agent-select.png)
 ![Agent selector with modernize-java-assessment selected](assets/java-assessment-agent.png)
@@ -510,7 +512,9 @@ From the root of your forked lab repository, start GitHub Copilot CLI:
 copilot
 ```
 
-Enter `/agent`, then select `modernize-java-assessment` from the agent picker.
+Enter `/model` and enter, and then select the "Auto" model to let copilot choose the most token and performance optimized model.
+
+Enter `/agent` and select the `modernize-java-assessment` from the agent picker.
 The plugin declares this assessment agent as user-invocable and configures its
 preferred model.
 
@@ -552,13 +556,25 @@ Enter `/tasks` to inspect active work and wait for every assessment task to
 finish. When the agent returns its final summary, confirm the generated report
 path and open the Markdown report in your editor.
 
+You will be prompted to allow Copilot to run some commands along the way. 
+
 </div>
 
-After the assessment is complete, the agent generates a report in Markdown that includes a summary of the findings and recommendations.
+After the assessment is complete, the agent generates **a report in Markdown** that includes a summary of the findings and recommendations.
+
+<div data-visible="$$copilot_cli$$">
+
+On the bottom of the terminal, you can see which model has been selected by Copilot and what is the current consumption of AI credits for the current session:
+![AI Credit Counter and selected model](assets/cli-aic-counter.png)
 
 The assessment report describes the current state of the application, including its dependencies, vulnerabilities, and modernization opportunities.
 
-<div data-visible="$$copilot_app$$">
+You can **ctrl+click** on the report path to open it.
+
+![preview report](assets/cli-report-open-preview.png)
+
+Take time to review the content.
+</div>
 
 ![Assessment report showing the current state and modernization targets](assets/assessment-md.png)
 > The opening inventory compares the current Java 8 and Spring Boot 2.7 stack with the Java 25 and Spring Boot 3.5 targets. It also surfaces end-of-life components and vulnerable dependencies that require attention.
@@ -572,7 +588,7 @@ The assessment report describes the current state of the application, including 
 ![Assessment report showing the current state and modernization sequence](assets/assessment-recommendations-sequence.png)
 > The recommended sequence isolates risk into testable stages: remediate CVEs first, move to Java 17, complete the Spring Boot and Jakarta migration, and then advance to Java 25. Running the full test suite after each stage makes failures easier to identify and resolve.
 
-</div>
+
 
 ## Step 5: Validate and refine the findings
 
@@ -583,6 +599,8 @@ record which recommendations you accept, reject, or defer before planning.
 ## Step 6: Build the modernization plan
 
 Now that the assessment is complete and validated, you can generate a modernization plan. The plan organizes the recommended tasks into a prioritized sequence of executable steps, including validation criteria for each task.
+
+It's time to start fresh with a new Copilot session !
 
 ### Why start a new session?
 

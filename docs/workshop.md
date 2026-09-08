@@ -45,10 +45,6 @@ Select the GitHub Copilot experience you will use for this workshop. Your
 choice is stored in the workshop URL, so the following pages only show the
 instructions for your selected path.
 
-<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url">Use GitHub Copilot CLI</button>
-
-<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url">Use GitHub Copilot app</button>
-
 <div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
 
 > You selected **GitHub Copilot CLI**. This choice is encoded in the URL as
@@ -56,10 +52,21 @@ instructions for your selected path.
 
 </div>
 
-<div class="info" data-title="Selected path" data-visible="$$copilot_app$$">
+<div class="info app-path" data-title="Selected path" data-visible="$$copilot_app$$">
 
-> You selected the **GitHub Copilot app**. This choice is encoded in the URL as
+> You selected the **GitHub Copilot App**. This choice is encoded in the URL as
 > `vars=copilot_app:1`.
+</div>
+
+<div data-hidden="$$copilot_cli$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url"> Use GitHub Copilot CLI </button>
+
+</div>
+
+<div data-hidden="$$copilot_app$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url"> Use GitHub Copilot App </button>
 
 </div>
 
@@ -118,7 +125,7 @@ Start by creating **your own fork** of the repository by clicking on the `Fork` 
 
 You can run GitHub Copilot CLI in GitHub Codespaces or on your local computer.
 
-**Use GitHub Copilot CLI in Codespaces**
+**Option 1: Use GitHub Copilot CLI in Codespaces**
 
 The environment is already configured to work with [GitHub Codespaces](https://github.com/features/codespaces), you can find the configuration files in the *.devcontainer* folder.
 
@@ -144,7 +151,7 @@ copilot
 Your GitHub account and Copilot license are available automatically in the
 Codespace.
 
-**Use GitHub Copilot CLI locally**
+**Option 2: Use GitHub Copilot CLI locally**
 
 Install [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli),
 open a terminal in your forked repository, and run:
@@ -154,6 +161,16 @@ copilot
 ```
 
 Sign in with the GitHub account that has access to Copilot when prompted.
+
+Clone the repo locally. Start from your repon on github.com and select Code => Local => copy url to clipboard
+![copy repo path to clipboard](assets/cli-copy-repo-url.png)
+
+And in target repo, open a new terminal and type:
+```bash
+git clone *the_repo_path*
+cd ghcp-agentic-modernisation-lab
+copilot
+```
 
 </div>
 
@@ -240,6 +257,30 @@ before changing any code. The goal is to establish a trustworthy baseline,
 identify modernization risks and opportunities, define a target state, and
 produce an actionable plan.
 
+<div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
+
+> You are on the **GitHub Copilot CLI** path. 
+
+</div>
+
+<div class="info app-path" data-title="Selected path" data-visible="$$copilot_app$$">
+
+> You are on the **GitHub Copilot App** path. 
+
+</div>
+
+<div data-hidden="$$copilot_cli$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url"> Use GitHub Copilot CLI </button>
+
+</div>
+
+<div data-hidden="$$copilot_app$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url"> Use GitHub Copilot App </button>
+
+</div>
+
 ## Before you begin
 
 Make sure you completed all the required pre-requisites and installed the required tools. You should have a working environment with your selected GitHub Copilot client. You should also have forked the repository and have access to the code.
@@ -282,8 +323,9 @@ Install the plugin using your selected GitHub Copilot client.
 **Install from the GitHub Copilot app**
 
 On the plugin details page, select **Open in GitHub Copilot app** and confirm the installation when prompted.
-![Awesome GitHub Copilot catalog page for the github-copilot-modernization plugin](assets/image.png)
-![GitHub Copilot app confirmation dialog for installing the modernization plugin](assets/image_1.png)
+![Awesome GitHub Copilot catalog page for the github-copilot-modernization plugin](assets/app-mod-plugin-install.png)
+![GitHub Copilot app confirmation dialog for installing the modernization plugin](assets/app-mod-plugin-confirm
+.png)
 
 The plugin is installed under the **awesome-copilot** marketplace. Expand the
 marketplace to view all available plugins and activate or deactivate them as
@@ -301,13 +343,19 @@ You can also view the installed plugin's skills by opening the **Skills** tab in
 
 **Install with GitHub Copilot CLI**
 
-Follow the plugin repository's installation instructions:
+Following the plugin repository's installation instructions, you should start by adding the marketplace to your CLI like this:
 
 ```bash
 /plugin marketplace add github/awesome-copilot
-/plugin install github-copilot-modernization@awesome-copilot
 ```
 
+But if you try it for Awesome Copilot you should get a message that it's alread instaled by default. Just keep it in mind for other marketplaces in the future. A marketplace is a repo with a specific registry to distribute plugins, skills, and other useful resources. You can easily create your own or add other from various providers.
+
+As the marketplace is already installed we can install our mordernization plugin immediately:
+
+```bash
+/plugin install github-copilot-modernization@awesome-copilot
+```
 Verify that the marketplace and plugin are available:
 
 ```bash
@@ -372,6 +420,8 @@ Enter `!` alone on an empty prompt to enter shell mode.
 
 <div data-visible="$$copilot_cli$$">
 
+Open another terminal in the repo folder and type:
+
 ```bash
 cd "app/Java - Spring Boot/Order Service"
 ```
@@ -408,12 +458,22 @@ npm run dev
 Open `http://localhost:5173` and confirm that the UI can retrieve orders from
 the backend. Record the test results, API response, and any startup warnings as
 part of the baseline.
+
+
+<div class="info" data-title="tip">
+
+> Instead of launching all these commands manually you can also simply ask to copilot to "Start may backend and my frontend" and it will do the same for you. Sometimes it's just important to do things manually to better understand what's your dealing with but copilot is also a very powerfull tool to discovers new codebase.
+
+</div>
+
 </div>
 
 Inspect the repository and capture:
 
 - modules and their responsibilities;
 - current Java version, build tool, and Spring Boot versions;
+
+
 
 ## Step 3: Check modernization readiness
 
@@ -609,6 +669,30 @@ changed.
 
 # Level 2: Setup the guardrails
 
+<div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
+
+> You are on the **GitHub Copilot CLI** path. 
+
+</div>
+
+<div class="info app-path" data-title="Selected path" data-visible="$$copilot_app$$">
+
+> You are on the **GitHub Copilot App** path. 
+
+</div>
+
+<div data-hidden="$$copilot_cli$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url"> Use GitHub Copilot CLI </button>
+
+</div>
+
+<div data-hidden="$$copilot_app$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url"> Use GitHub Copilot App </button>
+
+</div>
+
 [Philippe]
 
 Marketplace, plugins, agents, skills & instructions, MCP
@@ -618,6 +702,30 @@ Update plan
 ---
 
 # Level 3: Implementation
+
+<div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
+
+> You are on the **GitHub Copilot CLI** path. 
+
+</div>
+
+<div class="info app-path" data-title="Selected path" data-visible="$$copilot_app$$">
+
+> You are on the **GitHub Copilot App** path. 
+
+</div>
+
+<div data-hidden="$$copilot_cli$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url"> Use GitHub Copilot CLI </button>
+
+</div>
+
+<div data-hidden="$$copilot_app$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url"> Use GitHub Copilot App </button>
+
+</div>
 
 Multi-agent workflow
 => choose the right model
@@ -837,6 +945,30 @@ security review in Level 4.
 
 # Level 4: Quality & Security
 
+<div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
+
+> You are on the **GitHub Copilot CLI** path. 
+
+</div>
+
+<div class="info app-path" data-title="Selected path" data-visible="$$copilot_app$$">
+
+> You are on the **GitHub Copilot App** path. 
+
+</div>
+
+<div data-hidden="$$copilot_cli$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url"> Use GitHub Copilot CLI </button>
+
+</div>
+
+<div data-hidden="$$copilot_app$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url"> Use GitHub Copilot App </button>
+
+</div>
+
 [Nabil]
 Customize Code review
 Validate code quality, security
@@ -845,6 +977,30 @@ Fix vulnerabilities
 --- 
 
 # Level 5: Bonus
+
+<div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
+
+> You are on the **GitHub Copilot CLI** path. 
+
+</div>
+
+<div class="info app-path" data-title="Selected path" data-visible="$$copilot_app$$">
+
+> You are on the **GitHub Copilot App** path. 
+
+</div>
+
+<div data-hidden="$$copilot_cli$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url"> Use GitHub Copilot CLI </button>
+
+</div>
+
+<div data-hidden="$$copilot_app$$">
+
+<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url"> Use GitHub Copilot App </button>
+
+</div>
 
 [Philippe]
 Generer une présentation PPT

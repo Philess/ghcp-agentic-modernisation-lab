@@ -656,30 +656,42 @@ Start a new session for this repository in Plan mode. In that new session, use @
 
 <div data-visible="$$copilot_cli$$">
 
-In the completed assessment session, first confirm that `assessment.md` is
+In the completed assessment Copilot CLI session, first confirm that the `assessment.md` file is
 saved. Then enter `/new` to start a clean conversation, enter `/agent`, and
 select the user-invocable `modernize` orchestrator. The orchestrator delegates
 planning to the plugin's internal planning coordinator.
 
-Press `Shift+Tab` until the status line shows **Plan** mode, then enter:
+Press `Shift+Tab` until the status line shows **Plan** mode (in blue), then enter:
 
 ```text
-Use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
+Use @{{assesment_file_path}}} as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
 ```
 
-Review the proposed plan in the terminal. Enter `/session plan` whenever you
+<div class="info" data-title="tip">
+
+> By typing @ in Copilot CLI, you will have a filepicker to help you provide the exact path
+
+</div>
+
+![Copilot CLI plan ready for review](assets/cli-plan-ready.png)
+
+When the task is finished, a plan and a task list has been created. Select `Exit plan and I will prompt it myself`.
+
+To read the plan in detail you can type `/session plan` whenever you
 want to reopen it, and request revisions until the scope, ordering, dependencies,
 and validation gates match the assessment.
 
-When the plan is ready, choose **Exit plan mode and I will prompt myself**, then
-enter:
+To open it in edit mode and make manual changes just do `ctrl+y` and you'll be able to apply some changes.
+
+When the plan is ready, enter:
 
 ```text
 Persist the approved modernization plan as plan.md and tasks.json under .github/modernize/. Validate both artifacts and stop without executing any modernization task.
 ```
 
 Confirm that both files were written and that no application source files were
-changed.
+changed. On codespace, if you don't  see the files in the file explorer, hit the refresh button and you should see them.
+![VS Code explorer refresh](assets/vsc-explorer-refresh.png) 
 
 </div>
 
@@ -711,11 +723,124 @@ changed.
 
 </div>
 
-[Philippe]
+Before running the implementation with the created plan, it's always better to define your coding and quality standard, the methodologies, patterns and practices that will guide the modernization process.
 
-Marketplace, plugins, agents, skills & instructions, MCP
+We call these the **guardrails** and it's the best way to ensure that the results of the modernization process align with your standards and expectations.
 
-Update plan
+Exactly as you onboard new team members, you should define and communicate the guardrails to ensure everyone follows the same standards and practices during the modernization process.
+
+## Agents, Skills & Instructions
+
+GitHub Copilot can use custom agents Agents, Skills and Instructions to perform specific tasks with better accuracy.
+
+Agents let you give it a specific persona with built-in standards, like a code reviewer that enforces type hints and PEP 8, or a testing helper that writes pytest cases. You’ll see how the same prompt gets noticeably better results when handled by an agent with targeted instructions.
+
+Skills encapsulate reusable logic, while instructions guide the agents on how to use these skills effectively. 
+
+Instructions files contain the guidance that is automatically followed by the agents and we will use it to define specific context and rules about our project.
+
+## Step 1: Discover the Awesome Copilot suggestion skills
+
+Awesome Copilot provide a bunch of very useful resources built by the community that will help you accelerate your guardrails initial setup.
+
+Before running the following command, make sure you have started a new Copilot session.
+
+<div data-visible="$$copilot_cli$$">
+
+<div class="info" data-title="tip">
+
+> If you stopped a previous session but you want to reopen it, you can use the <b>/resume</b> command.
+
+</div>
+
+![resume command to reopen previous session](assets/cli-resume-session.png)
+
+
+**In the new Copilot session**, run the following command to browse the Awesome Copilot marketplace:
+
+```bash
+/plugin marketplace browse awesome-copilot
+```
+
+This will list all the available plugin with a short description. To optimize your experience install the "awesome-copilot" plugin:
+
+```bash
+/plugin install awesome-copilot@awesome-copilot
+```
+
+This install 3 dedicated skills that will suggest the most relevant and context-aware specialized Instructions, Agents or Skills from Awesome Copilot based on your prompt.
+
+```bash
+/awesome-copilot:suggest-awesome-github-copilot-instructions <your-prompt>
+/awesome-copilot:suggest-awesome-github-copilot-agents <your-prompt>
+/awesome-copilot:suggest-awesome-github-copilot-skills <your-prompt>
+```
+
+Try this prompt to find relevant instructions files for Java development:
+
+```bash
+/awesome-copilot:suggest-awesome-github-copilot-instructions java and springboot coding standards
+```
+
+This will provide you something like this:
+![CLI suggest instructions files](assets/cli-suggested-instructions.png)
+
+If you want to install one of the suggested instructions files, run the following command:
+
+```bash
+install the springboot.instructions.md file
+```
+
+## Step 2: Use copilot to install all necessary skills
+
+We have a clear technology stack and project structure defined with our migration plan and we can use it to guide the installation of all necessary skills for our project.
+
+Open a new Copilot, ensure you are in `auto` model (or your choice of model) and start by typing this prompt:
+
+```bash
+/fleet According to @.github/modernize/plan.md and help me find and install the most relevant skills to help migrate my project according to the best practices. First use the suggest-awesome-github-copilot-skills skill to analyse and find the best one. Let me choose and help me install it on my project.
+```
+
+Here i am using the fleet command to specifically instruct Copilot to use multiple agents in parallel when possible to speed up the process.
+
+## Step 2: Prepare your project for implementation
+
+We want to optimize out project for AI development, ensuring that all necessary instructions files are installed and the project structure aligns with the guidelines provided by the Awesome Copilot skills.
+
+There is plenty of Skills available that can help achieve that. Here are a few step to follow to help you kickstart it effectively. It's just one way to get started, and we recommend that you explore more skills to build your own optimized AI development workflow.
+
+**Prepare your project for AI**
+
+We will start by installing a first skill, named `AI-Ready` created by John Papa.
+
+This can be install through a dedicated plugin available in the Awesome Copilot marketplace.
+
+```bash
+/plugin install ai-ready@awesome-copilot
+```
+
+Then simply launch the process by typing the following command:
+
+```bash
+make this repo ai ready to prepare for code modernization according to @.github/modernize.plan.md
+```
+
+The skill will run a complete analysis of your project, the plan and will try to optimize your project structure and configuration for AI development.
+
+It will automatically create a main instructions file to add precise contexte for Copilot such as the important files for migrations, the code structure, code conventions and rules. It can also create or install some other specific instructions files, prompts and skills as needed.
+
+![AI Ready Process completed](assets/cli-ai-ready-process.png)
+
+</div>
+
+Guardrails are essential to improve the quality and reliability with AI-driven development processes but keep in mind that **every instructions file and skills you add** will be integrated into the context sent with your Copilot requests, **consuming tokens**. Keep it clean and concise and don't overload it with unnecessary information.
+
+<div class="info" data-title="Tip">
+
+> Some skills can help reduce you tokens consumption by installing the `caveman` instructions files or the `steno` skill from Awesome Copilot.
+
+</div>
+
 
 ---
 
@@ -745,11 +870,7 @@ Update plan
 
 </div>
 
-Multi-agent workflow
-=> choose the right model
-=> Autopilot
-
-In this level, you will execute the approved modernization plan with your selected GitHub Copilot client. Both paths invoke the same `modernize` orchestrator and use the plan artifacts created in Level 1 and refined with the guardrails from Level 2.
+You are now ready to execute the approved modernization plan with your selected GitHub Copilot client. Both paths invoke the same `modernize` orchestrator and use the plan artifacts created in Level 1 and refined with the guardrails from Level 2.
 
 The implementation is intentionally performed in a separate session. The execution agents need the final `plan.md`, `tasks.json`, rulebook, and project files, but they do not need the assessment and planning conversations.
 

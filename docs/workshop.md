@@ -739,7 +739,7 @@ Skills encapsulate reusable logic, while instructions guide the agents on how to
 
 Instructions files contain the guidance that is automatically followed by the agents and we will use it to define specific context and rules about our project.
 
-## Step 1: Discover the Awesome Copilot suggestion skills
+## Step 1: Find and install plugins, skills, agents and instructions
 
 Awesome Copilot provide a bunch of very useful resources built by the community that will help you accelerate your guardrails initial setup.
 
@@ -791,19 +791,7 @@ If you want to install one of the suggested instructions files, run the followin
 install the springboot.instructions.md file
 ```
 
-## Step 2: Use copilot to install all necessary skills
-
-We have a clear technology stack and project structure defined with our migration plan and we can use it to guide the installation of all necessary skills for our project.
-
-Open a new Copilot, ensure you are in `auto` model (or your choice of model) and start by typing this prompt:
-
-```bash
-/fleet According to @.github/modernize/plan.md and help me find and install the most relevant skills to help migrate my project according to the best practices. First use the suggest-awesome-github-copilot-skills skill to analyse and find the best one. Let me choose and help me install it on my project.
-```
-
-Here i am using the fleet command to specifically instruct Copilot to use multiple agents in parallel when possible to speed up the process.
-
-## Step 2: Prepare your project for implementation
+## Step 2: Prepare your project for AI
 
 We want to optimize out project for AI development, ensuring that all necessary instructions files are installed and the project structure aligns with the guidelines provided by the Awesome Copilot skills.
 
@@ -833,6 +821,23 @@ It will automatically create a main instructions file to add precise contexte fo
 
 </div>
 
+## Step 3: Use copilot to install all necessary skills
+
+We have a clear technology stack and project structure defined with our migration plan and we can use it to guide the installation of all necessary skills for our project.
+
+In order to improve the speed and efficiency of finding and installing the necessary skills, we will use the `fleet` command with `autopilot` mode to leverage multiple agents in parallel.
+
+Open a new Copilot, ensure you are in `auto` model (or your choice of model), press `shift+tab` until you go in `autopilot` mode and start by typing this prompt:
+
+```bash
+/fleet /fleet According to @.github/modernize/plan.md and help me find and install the most relevant skills to help migrate my project according to the best practices. First use the suggest-awesome-github-copilot-skills skill to analyse and find the best one. Let me choose and help me install it on my project.
+```
+
+**Autopilot mode** will launch multiple agents in parallel and you will be able to monitor it with the `/tasks` command during the process.
+
+Once the process is complete, you can simply choose the skills you want to install and let Copilot handle the installation for you.
+![CLI selection skills](assets/cli-selection-skills.png)
+
 Guardrails are essential to improve the quality and reliability with AI-driven development processes but keep in mind that **every instructions file and skills you add** will be integrated into the context sent with your Copilot requests, **consuming tokens**. Keep it clean and concise and don't overload it with unnecessary information.
 
 <div class="info" data-title="Tip">
@@ -840,6 +845,8 @@ Guardrails are essential to improve the quality and reliability with AI-driven d
 > Some skills can help reduce you tokens consumption by installing the `caveman` instructions files or the `steno` skill from Awesome Copilot.
 
 </div>
+
+
 
 
 ---

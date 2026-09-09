@@ -1124,7 +1124,7 @@ Fix vulnerabilities
 
 ---
 
-# Bonus: Generate the PPT
+# Bonus: Generate a migration report
 
 
 <div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">

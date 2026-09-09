@@ -324,8 +324,7 @@ Install the plugin using your selected GitHub Copilot client.
 
 On the plugin details page, select **Open in GitHub Copilot app** and confirm the installation when prompted.
 ![Awesome GitHub Copilot catalog page for the github-copilot-modernization plugin](assets/app-mod-plugin-install.png)
-![GitHub Copilot app confirmation dialog for installing the modernization plugin](assets/app-mod-plugin-confirm
-.png)
+![GitHub Copilot app confirmation dialog for installing the modernization plugin](assets/app-mod-plugin-confirm.png)
 
 The plugin is installed under the **awesome-copilot** marketplace. Expand the
 marketplace to view all available plugins and activate or deactivate them as
@@ -560,6 +559,8 @@ You will be prompted to allow Copilot to run some commands along the way.
 
 </div>
 
+Assessment agent first identifies the application structure and technology stack. It locates the relevant source directories, build files, dependency manifests, tests, configuration, deployment files, and existing modernization artifacts.
+
 After the assessment is complete, the agent generates **a report in Markdown** that includes a summary of the findings and recommendations.
 
 <div data-visible="$$copilot_cli$$">
@@ -583,7 +584,7 @@ Take time to review the content.
 > The compatibility analysis identifies the concrete changes required for the upgrade.
 
 ![Assessment report showing the current state and modernization targets](assets/assessment-cve-md.png)
-> The security findings trace each CVE to a specific dependency and version, explain its impact, and provide a minimum safe upgrade target.
+> The security findings trace each CVE to a specific dependency and version, explain its impact, and provide a minimum safe upgrade target. The agent queries **[GitHub’s public advisories](https://github.com/advisories)**, in batches of dependencies, using package/version.
 
 ![Assessment report showing the current state and modernization sequence](assets/assessment-recommendations-sequence.png)
 > The recommended sequence isolates risk into testable stages: remediate CVEs first, move to Java 17, complete the Spring Boot and Jakarta migration, and then advance to Java 25. Running the full test suite after each stage makes failures easier to identify and resolve.
@@ -617,9 +618,19 @@ Starting a new session gives the planner a clean context. Copilot only needs to 
 <div data-visible="$$copilot_app$$">
 
 You do not need to create the session or change its mode manually. From the completed assessment session, copy and send the following prompt:
+
+<div class="info" data-title="tip">
+
+> By typing @, you will have a filepicker to help you provide the exact path
+
+</div>
+
 ```text
-Start a new session for this repository in Plan mode. In that new session, use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
+First persist and commit the completed assessment artifact at @{{assessment_file_path}} so it is available to and can be read by the planning session. After that, create a new session for this repository in Plan mode, using Auto mode for model selection. In the new session, use assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
 ```
+
+> **Note:** The prompt requests **Auto** mode for model selection, but you can instead select a reasoning model for planning the modernization.
+
 ![Assessment session creating an isolated planning session](assets/start-new-session.png)
 
 > Copilot confirms that it created a separate planning session grounded in the assessment artifact. The assessment session remains unchanged and only coordinates the handoff.
@@ -664,7 +675,7 @@ planning to the plugin's internal planning coordinator.
 Press `Shift+Tab` until the status line shows **Plan** mode (in blue), then enter:
 
 ```text
-Use @{{assesment_file_path}}} as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
+Use @{{assesment_file_path}} as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
 ```
 
 <div class="info" data-title="tip">
@@ -683,11 +694,15 @@ and validation gates match the assessment.
 
 To open it in edit mode and make manual changes just do `ctrl+y` and you'll be able to apply some changes.
 
+</div>
+
 When the plan is ready, enter:
 
 ```text
 Persist the approved modernization plan as plan.md and tasks.json under .github/modernize/. Validate both artifacts and stop without executing any modernization task.
 ```
+
+<div data-visible="$$copilot_cli$$">
 
 Confirm that both files were written and that no application source files were
 changed. On codespace, if you don't  see the files in the file explorer, hit the refresh button and you should see them.
@@ -830,7 +845,7 @@ In order to improve the speed and efficiency of finding and installing the neces
 Open a new Copilot, ensure you are in `auto` model (or your choice of model), press `shift+tab` until you go in `autopilot` mode and start by typing this prompt:
 
 ```bash
-/fleet /fleet According to @.github/modernize/plan.md and help me find and install the most relevant skills to help migrate my project according to the best practices. First use the suggest-awesome-github-copilot-skills skill to analyse and find the best one. Let me choose and help me install it on my project.
+/fleet According to @.github/modernize/plan.md and help me find and install the most relevant skills to help migrate my project according to the best practices. First use the suggest-awesome-github-copilot-skills skill to analyse and find the best one. Let me choose and help me install it on my project.
 ```
 
 **Autopilot mode** will launch multiple agents in parallel and you will be able to monitor it with the `/tasks` command during the process.
@@ -1091,36 +1106,32 @@ security review in Level 4.
 
 # Level 4: Quality & Security
 
-<div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
+In this level, use **[Copilot Coding Review](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review)** to review the pull request created
+in the previous levels. You will add a [custom review instruction](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review#customizing-copilots-reviews-with-custom-instructions), run the review,
+and capture the results.
 
-> You are on the **GitHub Copilot CLI** path. 
+In Copilot Chat, run `/awesome-copilot:suggest-awesome-github-copilot-instructions` to find or generate Copilot instruction files that are suitable for code reviews. Use the suggested review instructions to inform the custom instruction for this pull request.
 
-</div>
+![alt text](assets/coding-review-instructions.png)
 
-<div class="info app-path" data-title="Selected path" data-visible="$$copilot_app$$">
+## Use Copilot Coding Review with custom instructions
 
-> You are on the **GitHub Copilot App** path. 
+Install the practical generic one: code-review-generic.instructions.md as `.github/copilot-instructions.md`
 
-</div>
+Commit and push the addition to the already-open PR branch
 
-<div data-hidden="$$copilot_cli$$">
+![alt text](assets/pr-copilot-instructions.png)
 
-<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_cli:1'); window.location.href = url"> Use GitHub Copilot CLI </button>
+Under "Reviewers" in the right sidebar, next to Copilot, click Request.
 
-</div>
+![alt text](assets/request-review.png)
 
-<div data-hidden="$$copilot_app$$">
+Wait for Copilot to review the pull request and provide its feedback.
+Scroll down and read through Copilot's comments.
 
-<button onclick="const url = new window.URL(window.location.href); url.searchParams.set('vars', 'copilot_app:1'); window.location.href = url"> Use GitHub Copilot App </button>
+Review each comment and decide whether to apply, discuss, or dismiss it. Copilot labels each comment with a severity level of "High," "Medium," or "Low" to help you prioritize the issues it finds based on their importance.
 
-</div>
-
-[Nabil]
-Customize Code review
-Validate code quality, security
-Fix vulnerabilities
-
-
+![alt text](copilot-review-overview.png)
 
 ---
 

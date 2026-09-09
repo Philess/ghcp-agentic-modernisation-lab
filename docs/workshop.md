@@ -1120,9 +1120,12 @@ Customize Code review
 Validate code quality, security
 Fix vulnerabilities
 
---- 
 
-# Level 5: Bonus
+
+---
+
+# Bonus: Generate the PPT
+
 
 <div class="info" data-title="Selected path" data-visible="$$copilot_cli$$">
 
@@ -1148,5 +1151,43 @@ Fix vulnerabilities
 
 </div>
 
-[Philippe]
-Generer une présentation PPT
+You reached the end of this migration, congratulations!
+
+The last step of your job is to be able to present your work to your team or stakeholders and putting a value on the improvements and changes you have made.
+
+GitHub Copilot maintain a local history of your sessions and it's very easy for you to request a summary or generate a presentation based on your work history.
+
+Open a new Copilot session and select a medium model like `GPT-5.6 Luna` for example and type the following prompt:
+
+```bash
+Generate a markdown report listing all operations done in all copilot session on this folder for the past 24 hours, detailing which model has been used and how many AI Credit where consumed and many other details
+```
+
+![Session Report generated CLI](assets/cli-session-report-generated.png)
+
+Open the report file in preview mode to review the generated content.
+
+![Session Report preview](assets/session-report-preview.png)
+
+This is pretty cool but what if you have a last minute opportunity to present your work and you need a shiny Business oriented PPT presenting your migration and improvements and also the AI cost incurred?
+
+Let's see how GitHub Copilot can help you handle that!
+
+First, you will need to add the `anthropic/skills` marketplace and install the `document` plugin:
+
+```bash
+/plugin marketplace add anthropics/skills
+/plugin install document-skills@anthropic-agent-skills
+```
+
+This plugin add capabilities to generate documents such as Excel, Word, PowerPoint, and PDF.
+
+Now switch to `autopilot` mode and ask to copilot to generate the PPT for you:
+
+```bash
+Using the files in @.github/modernize and the sessions report, create a 4 slides PowerPoint presentation including the highlight of this migration, with all the technical and business impacts, add details on how we ensure quality and finish with a dashboard style final slide focused on the AI usage and cost for this migration. Use Playwright for adding screen capture. Make it modern and visually appealing.
+```
+
+Once finished open and review the document and you are ready to go!
+
+![Final Presentation made by Copilot](assets/final-ppt.png)

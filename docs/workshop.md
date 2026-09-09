@@ -1131,7 +1131,7 @@ Scroll down and read through Copilot's comments.
 
 Review each comment and decide whether to apply, discuss, or dismiss it. Copilot labels each comment with a severity level of "High," "Medium," or "Low" to help you prioritize the issues it finds based on their importance.
 
-![alt text](copilot-review-overview.png)
+![alt text](assets/copilot-review-overview.png)
 
 ---
 

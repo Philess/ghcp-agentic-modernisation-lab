@@ -928,8 +928,6 @@ The execution coordinator groups related Java and Spring Boot upgrades into a si
 
 Model choice affects reasoning quality, tool use, speed, and AI credits consumption. The plugin's agents declare their own [preferred models](https://github.com/microsoft/github-copilot-modernization/blob/8b644bebc7e1f929c01d80788293a37872f480f8/plugins/github-copilot-modernization/agents/execution-coordinator.agent.md?plain=1#L4).
 
-If the configured model is unavailable in your organization, choose an available model optimized for complex coding and agentic tool use.
-
 Record the selected model so you can compare execution time, tool calls, and results with another model after the workshop.
 
 <div data-visible="$$copilot_app$$">
@@ -966,19 +964,22 @@ Copilot creates a separate implementation session and worktree while leaving the
 <div data-visible="$$copilot_cli$$">
 
 From the completed planning conversation, confirm that the approved `plan.md`
-and `tasks.json` are available, then enter `/new`. Enter `/agent` and select the
-user-invocable `modernize` orchestrator. Enter `/model` and select Claude Sonnet
-4.6, or the closest model available in your organization.
+and `tasks.json` are available, then enter `/new`.
 
-Press `Shift+Tab` until the status line shows **Autopilot** mode. Review the
-permission prompt carefully; grant the permissions required by the plan only in
-the isolated workshop repository or Codespace.
+
+Enter `/agent` and select the
+user-invocable `modernize` orchestrator. Enter `/model` and select Claude Sonnet
+4.6 for example, or the closest model available in your organization.
+
+Press `Shift+Tab` until the status line shows **Autopilot** mode. 
 
 Enter this prompt:
 
 ```text
 Execute the approved modernization plan for the Order Service from @plan.md. Use @tasks.json as the source of truth, enforce the rulebook, and respect every dependency and validation gate.
 ```
+
+Review the permission prompt carefully; grant the permissions required by the plan only in the isolated workshop repository or Codespace.
 
 Let the orchestration finish before editing files in the implementation worktree.
 
@@ -995,7 +996,9 @@ The session delegates implementation tasks to background subagents. Open the **B
 <div data-visible="$$copilot_cli$$">
 
 The session delegates implementation tasks to background subagents. Enter
-`/tasks` to inspect ownership and progress. Select a task to view its details or
+`/tasks` to inspect ownership and progress. 
+
+Select a task to view its details or
 open the delegated agent's session, then return to the main session and allow
 the orchestration to finish.
 
@@ -1036,7 +1039,7 @@ Autopilot removes repetitive approval prompts; it does not remove quality gates.
 
 ## Step 4: Review the execution result
 
-When all workers return, inspect the final execution summary. It should state:
+When all workers return, inspect the final execution summary. It should state most information relevant to the modernization process:
 
 - completed and failed tasks;
 - files and dependencies changed;
@@ -1051,6 +1054,8 @@ When all workers return, inspect the final execution summary. It should state:
 </div>
 
 <div data-visible="$$copilot_cli$$">
+
+![Execution coordinator confirming tasks achieved](assets/cli-execution-tasks-achieved.png)
 
 Enter `/tasks` and confirm that no implementation task is still active. Then
 enter `/diff` to review the modernization branch changes from inside GitHub

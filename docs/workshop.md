@@ -1110,24 +1110,34 @@ In this level, use **[Copilot Coding Review](https://docs.github.com/en/enterpri
 in the previous levels. You will add a [custom review instruction](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review#customizing-copilots-reviews-with-custom-instructions), run the review,
 and capture the results.
 
+## Step 1: Find review instructions
+
 In Copilot Chat, run `/awesome-copilot:suggest-awesome-github-copilot-instructions` to find or generate Copilot instruction files that are suitable for code reviews. Use the suggested review instructions to inform the custom instruction for this pull request.
 
 ![alt text](assets/coding-review-instructions.png)
 
-## Use Copilot Coding Review with custom instructions
+## Step 2: Install the custom review instructions
 
 Install the practical generic one: code-review-generic.instructions.md as `.github/copilot-instructions.md`
+
+## Step 3: Commit and push the instructions
 
 Commit and push the addition to the already-open PR branch
 
 ![alt text](assets/pr-copilot-instructions.png)
 
+## Step 4: Request a Copilot review
+
 Under "Reviewers" in the right sidebar, next to Copilot, click Request.
 
 ![alt text](assets/request-review.png)
 
+## Step 5: Read the review feedback
+
 Wait for Copilot to review the pull request and provide its feedback.
 Scroll down and read through Copilot's comments.
+
+## Step 6: Triage the review comments
 
 Review each comment and decide whether to apply, discuss, or dismiss it. Copilot labels each comment with a severity level of "High," "Medium," or "Low" to help you prioritize the issues it finds based on their importance.
 

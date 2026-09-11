@@ -1039,7 +1039,9 @@ Autopilot removes repetitive approval prompts; it does not remove quality gates.
 
 ## Step 4: Review the execution result
 
-When all workers return, inspect the final execution summary. It should state most information relevant to the modernization process:
+When all workers return, inspect the final execution summary generated as well as the detailed Markdown migration report generated (`my-migration-report.md`).
+
+It should state most information relevant to the modernization process:
 
 - completed and failed tasks;
 - files and dependencies changed;
@@ -1057,13 +1059,15 @@ When all workers return, inspect the final execution summary. It should state mo
 
 ![Execution coordinator confirming tasks achieved](assets/cli-execution-tasks-achieved.png)
 
+![Detailed migration report](assets/cli-execution-migration-report.png)
+
 Enter `/tasks` and confirm that no implementation task is still active. Then
 enter `/diff` to review the modernization branch changes from inside GitHub
 Copilot CLI.
 
 </div>
 
-Review the branch history and working tree before running your own checks
+Review the branch history and working tree before continuing to running your own checks.
 
 ## Step 5: Verify independently
 
@@ -1106,6 +1110,8 @@ npm run dev
 Compare these results with the Level 1 baseline. Record any behavior change,
 warning, failed test, or plan deviation before moving to the quality and
 security review in Level 4.
+
+Push your changes to the remote repository and open a PR for the modernization branch.
 
 ---
 

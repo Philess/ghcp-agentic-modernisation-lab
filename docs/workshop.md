@@ -969,7 +969,7 @@ and `tasks.json` are available, then enter `/new`.
 
 Enter `/agent` and select the
 user-invocable `modernize` orchestrator. Enter `/model` and select Claude Sonnet
-4.6 for example, or the closest model available in your organization.
+5, or GPT 5.5 for example, or the closest model available in your organization.
 
 Press `Shift+Tab` until the status line shows **Autopilot** mode. 
 
@@ -995,8 +995,12 @@ The session delegates implementation tasks to background subagents. Open the **B
 
 <div data-visible="$$copilot_cli$$">
 
+![CLI showing tasks running](assets/cli-tasks-running.png)
+
 The session delegates implementation tasks to background subagents. Enter
 `/tasks` to inspect ownership and progress. 
+
+![CLI showing task list](assets/cli-task-list.png)
 
 Select a task to view its details or
 open the delegated agent's session, then return to the main session and allow

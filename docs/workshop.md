@@ -223,12 +223,6 @@ I need some tools to run a workshop. Help me install:
 - Docker and the Azure CLI 
 ```
 
-<div data-visible="$$copilot_app$$">
-
-![new chat](assets/ghcp-app-new-chat.png)
-
-</div>
-
 ## How to run the code?
 
 Everything is detailed in the bundled
@@ -388,6 +382,10 @@ In the GitHub Copilot app, start a new session in your forked lab repository.
 > session makes the original build and runtime evidence easier to review later.
 
 Enter `!` alone on an empty prompt to enter shell mode.
+
+```bash
+cd "app/Java - Spring Boot/Order Service"
+```
 
 ![GitHub Copilot app shell mode command prompt](assets/shell-command.png)
 > Shell mode runs commands directly in the repository environment. Change to
@@ -926,21 +924,23 @@ The execution coordinator groups related Java and Spring Boot upgrades into a si
 
 ## Step 1: Choose the execution model
 
-Model choice affects reasoning quality, tool use, speed, and AI credits consumption. The plugin's agents declare their own [preferred models](https://github.com/microsoft/github-copilot-modernization/blob/8b644bebc7e1f929c01d80788293a37872f480f8/plugins/github-copilot-modernization/agents/execution-coordinator.agent.md?plain=1#L4).
+Model choice affects reasoning quality, tool use, speed, and AI credits consumption.
 
-Record the selected model so you can compare execution time, tool calls, and results with another model after the workshop.
+Choose a specific model for the implementation session, or leave the model set
+to **Auto** and let GitHub Copilot select one. Record the selected model so you can compare execution time, tool calls, and results with
+another run after the workshop.
 
 <div data-visible="$$copilot_app$$">
 
-Use the model picker in the GitHub Copilot app to select the model for the new
-implementation session.
+Use the model picker in the GitHub Copilot app to select a model for the new
+implementation session, or leave it set to **Auto**.
 
 </div>
 
 <div data-visible="$$copilot_cli$$">
 
-Enter `/model` in GitHub Copilot CLI and select the model for the implementation
-session.
+Enter `/model` in GitHub Copilot CLI and select a model for the implementation
+session, or leave the model set to **Auto**.
 
 </div>
 
@@ -951,7 +951,7 @@ session.
 Remain in the completed planning session after approving the plan. From that same session, send the following handoff prompt:
 
 ```text
-Start a new session with the modernize agent in Autopilot mode using Claude sonnet 4.6. In that new session, execute the approved modernization plan for the Order Service from @plan.md. Use @tasks.json as the source of truth, enforce the rulebook, and respect every dependency and validation gate.
+Start a new session with the modernize agent in Autopilot mode using Auto model. In that new session, execute the approved modernization plan for the Order Service from @plan.md. Use @tasks.json as the source of truth, enforce the rulebook, and respect every dependency and validation gate.
 ```
 ![Planning session creating a separate Autopilot implementation session from the approved plan](assets/start-implementation.png)
 

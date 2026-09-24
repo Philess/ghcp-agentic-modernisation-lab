@@ -678,11 +678,7 @@ enter `/new` to start a clean conversation, enter `/agent`, and select the
 user-invocable `modernize` orchestrator. The orchestrator delegates planning to
 the plugin's internal planning coordinator.
 
-If your workflow produced the JSON artifact instead, replace
-`@./assessment/assessment.md` in the prompt below with
-`@./assessment/report.json`.
-
-Press `Shift+Tab` until the status line shows **Plan** mode (in blue), then enter:
+Press `Shift+Tab` until the status line shows **Plan** mode (in blue), then enter the following prompt. If your workflow produced the JSON artifact instead, replace `@./assessment/assessment.md` in the prompt with `@./assessment/report.json`.
 
 ```text
 Use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.

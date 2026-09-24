@@ -609,7 +609,7 @@ It's time to start fresh with a new Copilot session !
 
 The first session has completed its assessment role and externalized the information needed for planning into a repository artifact:
 
-- `./assessment/assessment.md` or `./assessment/report.json` contains the validated findings, supporting evidence, risks, and recommendations;
+- The assessment artifact (`./assessment/assessment.md` or `./assessment/report.json`) contains the validated findings, supporting evidence, risks, and recommendations.
 
 This artifact provides a durable handoff between the assessment and planning phases, so the planning agent does not need the assessment conversation itself. That conversation may contain source-code scans, command output, subagent messages, intermediate conclusions, and repeated findings. Continuing in the same session makes that history compete with the plan for space in the model's context window and can cause Copilot to process more tokens on every turn.
 
@@ -628,7 +628,7 @@ You do not need to create the session or change its mode manually. From the comp
 </div>
 
 ```text
-First persist and commit the completed assessment artifact at @./assessment/assessment.md or @./assessment/report.json so it is available to and can be read by the planning session. After that, create a new session for this repository in Plan mode, using Auto mode for model selection. In the new session, use the committed assessment artifact as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
+First persist and commit the completed assessment artifact at @<assessment-artifact-path> so it is available to and can be read by the planning session. Use the path your assessment workflow produced: `./assessment/assessment.md` or `./assessment/report.json`. After that, create a new session for this repository in Plan mode, using Auto mode for model selection. In the new session, use the committed assessment artifact as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
 ```
 
 > **Note:** The prompt requests **Auto** mode for model selection, but you can instead select a reasoning model for planning the modernization.
@@ -678,7 +678,7 @@ the plugin's internal planning coordinator.
 Press `Shift+Tab` until the status line shows **Plan** mode (in blue), then enter:
 
 ```text
-Use @./assessment/assessment.md or @./assessment/report.json as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
+Use @<assessment-artifact-path> as the source of truth to create a prioritized, executable modernization plan for the Order Service. Use the path your assessment workflow produced: `./assessment/assessment.md` or `./assessment/report.json`. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
 ```
 
 <div class="info" data-title="tip">

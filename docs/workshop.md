@@ -613,9 +613,9 @@ The first session has completed its assessment role and externalized the informa
 
 This artifact provides a durable handoff between the assessment and planning phases, so the planning agent does not need the assessment conversation itself. That conversation may contain source-code scans, command output, subagent messages, intermediate conclusions, and repeated findings. Continuing in the same session makes that history compete with the plan for space in the model's context window and can cause Copilot to process more tokens on every turn.
 
-Starting a new session gives the planner a clean context. Copilot only needs to load the final assessment artifacts, the planning prompt, and any relevant project files. This reduces unnecessary token usage, leaves more context capacity for producing a detailed plan, and prevents superseded assessment discussions from distracting the planner from the validated findings.
+Starting a new session gives the planner a clean context. Copilot only needs to load the final assessment artifact, the planning prompt, and any relevant project files. This reduces unnecessary token usage, leaves more context capacity for producing a detailed plan, and prevents superseded assessment discussions from distracting the planner from the validated findings.
 
-> **Important:** Before requesting the handoff, make sure the completed assessment artifact (`assessment.md` or `report.json`) is saved and available on the branch or worktree that the new session will use. The files carry the work forward; the previous chat history does not.
+> **Important:** Before requesting the handoff, make sure the completed assessment artifact (`assessment.md` or `report.json`) is saved and available on the branch or worktree that the new session will use. The artifact carries the work forward; the previous chat history does not.
 
 <div data-visible="$$copilot_app$$">
 
@@ -624,11 +624,13 @@ You do not need to create the session or change its mode manually. From the comp
 <div class="info" data-title="tip">
 
 > By typing @, you will have a filepicker to help you provide the exact path
+> If your workflow produced the JSON artifact instead, replace
+> `@./assessment/assessment.md` in the prompt with `@./assessment/report.json`.
 
 </div>
 
 ```text
-First persist and commit the completed assessment artifact at @<assessment-artifact-path> so it is available to and can be read by the planning session. Use the path your assessment workflow produced: `./assessment/assessment.md` or `./assessment/report.json`. After that, create a new session for this repository in Plan mode, using Auto mode for model selection. In the new session, use the committed assessment artifact as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
+First persist and commit the completed assessment artifact at @./assessment/assessment.md so it is available to and can be read by the planning session. After that, create a new session for this repository in Plan mode, using Auto mode for model selection. In the new session, use the committed assessment artifact as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
 ```
 
 > **Note:** The prompt requests **Auto** mode for model selection, but you can instead select a reasoning model for planning the modernization.
@@ -651,7 +653,7 @@ First persist and commit the completed assessment artifact at @<assessment-artif
 
 ![Modernization plan dependency gates and persistent artifact outputs](assets/plan-details-tasks.png)
 
-> The final sections define release gates between the security, Spring Boot, Java 21, and Java 25 stages. They also identify the persistent `plan.md` and `tasks.json` outputs and confirm that the assessment artifacts remain read-only.
+> The final sections define release gates between the security, Spring Boot, Java 21, and Java 25 stages. They also identify the persistent `plan.md` and `tasks.json` outputs and confirm that the assessment artifact remains read-only.
 
 ![Plan approval gate with implementation and revision options](assets/approve-for-implementation.png)
 
@@ -677,8 +679,11 @@ the plugin's internal planning coordinator.
 
 Press `Shift+Tab` until the status line shows **Plan** mode (in blue), then enter:
 
+If your workflow produced the JSON artifact instead, replace
+`@./assessment/assessment.md` in the prompt with `@./assessment/report.json`.
+
 ```text
-Use @<assessment-artifact-path> as the source of truth to create a prioritized, executable modernization plan for the Order Service. Use the path your assessment workflow produced: `./assessment/assessment.md` or `./assessment/report.json`. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
+Use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
 ```
 
 <div class="info" data-title="tip">

@@ -560,7 +560,7 @@ You will be prompted to allow Copilot to run some commands along the way.
 
 Assessment agent first identifies the application structure and technology stack. It locates the relevant source directories, build files, dependency manifests, tests, configuration, deployment files, and existing modernization artifacts.
 
-After the assessment is complete, the agent generates **a report in Markdown** that includes a summary of the findings and recommendations.
+After the assessment is complete, the agent generates an assessment artifact that includes a summary of the findings and recommendations. Depending on the workflow, this can be a Markdown report (`assessment.md`) or a structured JSON report (`report.json`).
 
 <div data-visible="$$copilot_cli$$">
 
@@ -592,9 +592,12 @@ Take time to review the content.
 
 ## Step 5: Validate and refine the findings
 
-Compare each material finding in the assessment with the baseline evidence.
-Correct unsupported assumptions, add missed dependencies and constraints, and
-record which recommendations you accept, reject, or defer before planning.
+Compare each material finding in the assessment artifact with the baseline
+evidence. Correct unsupported assumptions, add missed dependencies and
+constraints, and record which recommendations you accept, reject, or defer
+before planning. If the assessment is in `report.json`, also confirm that the
+JSON is valid and that the accepted findings, evidence, risks, and
+recommendations are present before using it as the planning handoff.
 
 ## Step 6: Build the modernization plan
 
@@ -606,13 +609,13 @@ It's time to start fresh with a new Copilot session !
 
 The first session has completed its assessment role and externalized the information needed for planning into a repository artifact:
 
-- `./assessment/assessment.md` contains the validated findings, supporting evidence, risks, and recommendations;
+- `./assessment/assessment.md` or `./assessment/report.json` contains the validated findings, supporting evidence, risks, and recommendations;
 
-This file provides a durable handoff between the assessment and planning phases, so the planning agent does not need the assessment conversation itself. That conversation may contain source-code scans, command output, subagent messages, intermediate conclusions, and repeated findings. Continuing in the same session makes that history compete with the plan for space in the model's context window and can cause Copilot to process more tokens on every turn.
+This artifact provides a durable handoff between the assessment and planning phases, so the planning agent does not need the assessment conversation itself. That conversation may contain source-code scans, command output, subagent messages, intermediate conclusions, and repeated findings. Continuing in the same session makes that history compete with the plan for space in the model's context window and can cause Copilot to process more tokens on every turn.
 
 Starting a new session gives the planner a clean context. Copilot only needs to load the final assessment artifacts, the planning prompt, and any relevant project files. This reduces unnecessary token usage, leaves more context capacity for producing a detailed plan, and prevents superseded assessment discussions from distracting the planner from the validated findings.
 
-> **Important:** Before requesting the handoff, make sure `assessment.md` is saved and available on the branch or worktree that the new session will use. The files carry the work forward; the previous chat history does not.
+> **Important:** Before requesting the handoff, make sure the completed assessment artifact (`assessment.md` or `report.json`) is saved and available on the branch or worktree that the new session will use. The files carry the work forward; the previous chat history does not.
 
 <div data-visible="$$copilot_app$$">
 
@@ -625,7 +628,7 @@ You do not need to create the session or change its mode manually. From the comp
 </div>
 
 ```text
-First persist and commit the completed assessment artifact at @./assessment/assessment.md so it is available to and can be read by the planning session. After that, create a new session for this repository in Plan mode, using Auto mode for model selection. In the new session, use assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
+First persist and commit the completed assessment artifact at @./assessment/assessment.md or @./assessment/report.json so it is available to and can be read by the planning session. After that, create a new session for this repository in Plan mode, using Auto mode for model selection. In the new session, use the committed assessment artifact as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Keep this assessment session unchanged and perform all planning in the new session.
 ```
 
 > **Note:** The prompt requests **Auto** mode for model selection, but you can instead select a reasoning model for planning the modernization.
@@ -636,7 +639,7 @@ First persist and commit the completed assessment artifact at @./assessment/asse
 
 ![New planning session running in Plan mode with the planning coordinator](assets/plan-new-session.png)
 
-> The new session appears separately in the repository session list. It runs in **Plan** mode with the planning coordinator agent, loads the modernization-planning skill from the plugin, and references `assessment.md` in the kickoff prompt.
+> The new session appears separately in the repository session list. It runs in **Plan** mode with the planning coordinator agent, loads the modernization-planning skill from the plugin, and references the committed assessment artifact in the kickoff prompt.
 
 ![Generated modernization plan showing the target state and executable tasks](assets/view-plan.png)
 
@@ -666,15 +669,16 @@ First persist and commit the completed assessment artifact at @./assessment/asse
 
 <div data-visible="$$copilot_cli$$">
 
-In the completed assessment Copilot CLI session, first confirm that the `assessment.md` file is
-saved. Then enter `/new` to start a clean conversation, enter `/agent`, and
-select the user-invocable `modernize` orchestrator. The orchestrator delegates
-planning to the plugin's internal planning coordinator.
+In the completed assessment Copilot CLI session, first confirm that the
+completed assessment artifact (`assessment.md` or `report.json`) is saved. Then
+enter `/new` to start a clean conversation, enter `/agent`, and select the
+user-invocable `modernize` orchestrator. The orchestrator delegates planning to
+the plugin's internal planning coordinator.
 
 Press `Shift+Tab` until the status line shows **Plan** mode (in blue), then enter:
 
 ```text
-Use @./assessment/assessment.md as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
+Use @./assessment/assessment.md or @./assessment/report.json as the source of truth to create a prioritized, executable modernization plan for the Order Service. Preserve the validated target state and accepted recommendations recorded in this artifact. Include dependencies, risk, scope, and validation criteria for every task. Do not implement the plan.
 ```
 
 <div class="info" data-title="tip">

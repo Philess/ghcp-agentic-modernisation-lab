@@ -679,7 +679,8 @@ user-invocable `modernize` orchestrator. The orchestrator delegates planning to
 the plugin's internal planning coordinator.
 
 If your workflow produced the JSON artifact instead, replace
-`@./assessment/assessment.md` in the prompt with `@./assessment/report.json`.
+`@./assessment/assessment.md` in the prompt below with
+`@./assessment/report.json`.
 
 Press `Shift+Tab` until the status line shows **Plan** mode (in blue), then enter:
 
